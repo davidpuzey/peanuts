@@ -5,4 +5,10 @@ class LiveScreen : public QWidget {
 	
 	public:
 		LiveScreen();
+	
+	signals:
+		void liveClosed(); // Used to indicate when the live screen has been closed
+	
+	private:
+		void closeEvent(QCloseEvent *event);
 };

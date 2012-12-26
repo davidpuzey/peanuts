@@ -13,6 +13,7 @@ Interface::Interface() {
 	
 	connect(goLiveButton, SIGNAL(clicked()), this, SLOT(toggleLiveWindow()));
 	connect(this, SIGNAL(isLiveSignal(bool)), goLiveButton, SLOT(setChecked(bool)));
+	connect(livescreen, SIGNAL(liveClosed()), this, SLOT(closeLiveWindow()));
 	connect(liveTrue, SIGNAL(clicked()), this, SLOT(openLiveWindow()));
 	connect(liveFalse, SIGNAL(clicked()), this, SLOT(closeLiveWindow()));
 	
