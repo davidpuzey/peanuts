@@ -8,9 +8,9 @@ class Interface : public QWidget {
 		Interface();
 
 	private slots:
-		void openLiveWindow();
-		void closeLiveWindow();
-		void toggleLiveWindow();
+		void openLiveScreen();
+		void closeLiveScreen();
+		void toggleLiveScreen();
 	
 	signals:
 		void isLiveSignal(bool); // Determines the live states, set true for live, set false for not live
