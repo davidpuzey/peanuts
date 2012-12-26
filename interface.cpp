@@ -3,6 +3,7 @@
 
 Interface::Interface() {
 	currentLiveState = false;
+	livescreen = new LiveScreen;
 	
 	goLiveButton = new QPushButton("Go Live");
 	goLiveButton->setCheckable(true);
@@ -48,6 +49,7 @@ void Interface::setLiveState(bool state) {
 	if (state == currentLiveState)
 		return;
 	
-	currentLiveState = state;
+	currentLiveState = (state) ? true : false;
+	livescreen->setVisible(currentLiveState);
 	emit isLiveSignal(currentLiveState);
 }

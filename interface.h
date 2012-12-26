@@ -1,4 +1,5 @@
 #include <QtGui>
+#include "livescreen.h"
 
 class Interface : public QWidget {
     Q_OBJECT
@@ -19,4 +20,5 @@ class Interface : public QWidget {
 		bool isLive();
 		void setLiveState(bool);
 		bool currentLiveState;
+		LiveScreen *livescreen;
 };
