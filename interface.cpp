@@ -16,8 +16,6 @@ Interface::Interface() {
 	
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->addWidget(goLiveButton);
-	//layout->addWidget(liveTrue);
-	//layout->addWidget(liveFalse);
 	
 	setLayout(layout);
 	
