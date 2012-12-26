@@ -3,7 +3,7 @@
 
 LiveScreen::LiveScreen() {
 	setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint); // Setting up for full screen (on show we set the position of the window)
-	setWindowTitle("Live Screen");
+	setWindowTitle(tr("Live Screen"));
 }
 
 /**
