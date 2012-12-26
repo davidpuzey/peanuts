@@ -27,6 +27,11 @@ Interface::Interface() {
 	setWindowTitle(tr("Peanuts"));
 }
 
+void Interface::closeEvent(QCloseEvent *event) {
+	closeLiveWindow();
+	event->accept();
+}
+
 void Interface::openLiveWindow() {
 	setLiveState(true);
 }

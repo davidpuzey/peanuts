@@ -21,4 +21,5 @@ class Interface : public QWidget {
 		void setLiveState(bool);
 		bool currentLiveState;
 		LiveScreen *livescreen;
+		void closeEvent(QCloseEvent *event);
 };
