@@ -9,10 +9,10 @@ Interface::Interface() {
 	goLiveButton = new QPushButton("Go Live");
 	goLiveButton->setCheckable(true);
 	
-	connect(goLiveButton, SIGNAL(clicked()), this, SLOT(toggleLiveWindow()));
+	connect(goLiveButton, SIGNAL(clicked()), this, SLOT(toggleLiveScreen()));
 	connect(this, SIGNAL(isLiveSignal(bool)), goLiveButton, SLOT(setChecked(bool)));
-	connect(livescreen, SIGNAL(liveClosed()), this, SLOT(closeLiveWindow()));
-	connect(quitShortcut, SIGNAL(activated()), this, SLOT(closeLiveWindow()));
+	connect(livescreen, SIGNAL(liveClosed()), this, SLOT(closeLiveScreen()));
+	connect(quitShortcut, SIGNAL(activated()), this, SLOT(closeLiveScreen()));
 	
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->addWidget(goLiveButton);
@@ -25,23 +25,23 @@ Interface::Interface() {
 }
 
 void Interface::closeEvent(QCloseEvent *event) {
-	closeLiveWindow();
+	closeLiveScreen();
 	event->accept();
 }
 
-void Interface::openLiveWindow() {
+void Interface::openLiveScreen() {
 	setLiveState(true);
 }
 
-void Interface::closeLiveWindow() {
+void Interface::closeLiveScreen() {
 	setLiveState(false);
 }
 
-void Interface::toggleLiveWindow() {
+void Interface::toggleLiveScreen() {
 	if (isLive())
-		closeLiveWindow();
+		closeLiveScreen();
 	else
-		openLiveWindow();
+		openLiveScreen();
 }
 
 bool Interface::isLive() {
