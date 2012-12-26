@@ -1,2 +1,9 @@
+# Build directories
 debug
 release
+
+# Ignore makefiles for now as they are generated with qmake - if I get round to making my own then I'll remove this
+Makefile*
+
+# I believe this is only used by qmake
+program.pro
