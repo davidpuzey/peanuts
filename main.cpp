@@ -1,11 +1,11 @@
 #include <QtGui>
-#include "interface.h"
+#include "MainWindow.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    Interface interface;
-    interface.show();
+    MainWindow mainwindow;
+    mainwindow.show();
 
     return app.exec();
 }

@@ -1,7 +1,7 @@
 #include <QtGui>
-#include "interface.h"
+#include "MainWindow.h"
 
-Interface::Interface() {
+MainWindow::MainWindow() {
 	currentLiveState = false;
 	livescreen = new LiveScreen;
 	QShortcut *quitShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), livescreen);
@@ -22,31 +22,31 @@ Interface::Interface() {
 	setWindowTitle(tr("Peanuts"));
 }
 
-void Interface::closeEvent(QCloseEvent *event) {
+void MainWindow::closeEvent(QCloseEvent *event) {
 	closeLiveScreen();
 	event->accept();
 }
 
-void Interface::openLiveScreen() {
+void MainWindow::openLiveScreen() {
 	setLiveState(true);
 }
 
-void Interface::closeLiveScreen() {
+void MainWindow::closeLiveScreen() {
 	setLiveState(false);
 }
 
-void Interface::toggleLiveScreen() {
+void MainWindow::toggleLiveScreen() {
 	if (isLive())
 		closeLiveScreen();
 	else
 		openLiveScreen();
 }
 
-bool Interface::isLive() {
+bool MainWindow::isLive() {
 	return (currentLiveState) ? true : false; // I know this is the same as just returning the value of currentLiveState, but I'm sure I read somewhere that this is better practice ... can't remember why though :/
 }
 
-void Interface::setLiveState(bool state) {
+void MainWindow::setLiveState(bool state) {
 	if (state == currentLiveState)
 		return;
 	

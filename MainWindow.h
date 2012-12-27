@@ -1,11 +1,11 @@
 #include <QtGui>
 #include "livescreen.h"
 
-class Interface : public QWidget {
+class MainWindow : public QWidget {
     Q_OBJECT
 	
 	public:
-		Interface();
+		MainWindow();
 
 	private slots:
 		void openLiveScreen();
