@@ -2,6 +2,9 @@
 #include "livescreen.h"
 
 LiveScreen::LiveScreen() {
+	QPalette palette;
+	palette.setBrush(QPalette::Background,QPixmap("background.jpg").scaled(QApplication::desktop()->screenGeometry().size(), Qt::KeepAspectRatioByExpanding));
+	setPalette(palette);
 	setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint); // Setting up for full screen (on show we set the position of the window)
 	setWindowTitle(tr("Live Screen"));
 }
