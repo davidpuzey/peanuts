@@ -6,16 +6,16 @@ LiveScreen::LiveScreen() {
 	setCursor(QCursor(Qt::BlankCursor));
 	setWindowTitle(tr("Live Screen"));
 	
-	blackout = new QWidget(this); // This feels like a hack, but after some research I decided that it was the easiest way. Will look into a better solution once everything is done.
-	blackout->setStyleSheet("background-color: black;"); // Black as it's the blackout screen
-	blackout->hide(); // Ensure that it isn't shown to begin with
+	blackoutScreen = new QWidget(this); // This feels like a hack, but after some research I decided that it was the easiest way. Will look into a better solution once everything is done.
+	blackoutScreen->setStyleSheet("background-color: black;"); // Black as it's the blackout screen
+	blackoutScreen->hide(); // Ensure that it isn't shown to begin with
 }
 
 void LiveScreen::blackoutWindow() {
-	if (blackout->isHidden())
-		blackout->show();
+	if (blackoutScreen->isHidden())
+		blackoutScreen->show();
 	else
-		blackout->hide();
+		blackoutScreen->hide();
 }
 
 /**
@@ -41,6 +41,6 @@ void LiveScreen::showEvent(QShowEvent *event) {
 	setPalette(palette);
 	
 	setGeometry(sGeometry);
-	blackout->resize(size()); // Ensure that the blackout screen is the size of the screen
+	blackoutScreen->resize(size()); // Ensure that the blackout screen is the size of the screen
 	event->accept();
 }
