@@ -9,6 +9,9 @@ class LiveScreen : public QWidget {
 	signals:
 		void liveClosed(); // Used to indicate when the live screen has been closed
 	
+	public slots:
+		void blackoutWindow();
+	
 	private:
 		void closeEvent(QCloseEvent *event);
 		void showEvent(QShowEvent *event);

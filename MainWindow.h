@@ -17,6 +17,7 @@ class MainWindow : public QWidget {
 
 	private:
 		QPushButton *goLiveButton;
+		QPushButton *blackoutButton;
 		bool isLive();
 		void setLiveState(bool);
 		bool currentLiveState;

@@ -8,14 +8,18 @@ MainWindow::MainWindow() {
 	
 	goLiveButton = new QPushButton("Go Live");
 	goLiveButton->setCheckable(true);
+	blackoutButton = new QPushButton("Blackout");
+	blackoutButton->setCheckable(true);
 	
 	connect(goLiveButton, SIGNAL(clicked()), this, SLOT(toggleLiveScreen()));
+	connect(blackoutButton, SIGNAL(clicked()), livescreen, SLOT(blackoutWindow()));
 	connect(this, SIGNAL(isLiveSignal(bool)), goLiveButton, SLOT(setChecked(bool)));
 	connect(livescreen, SIGNAL(liveClosed()), this, SLOT(closeLiveScreen()));
 	connect(quitShortcut, SIGNAL(activated()), this, SLOT(closeLiveScreen()));
 	
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->addWidget(goLiveButton);
+	layout->addWidget(blackoutButton);
 	
 	setLayout(layout);
 	

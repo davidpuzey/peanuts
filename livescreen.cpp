@@ -11,6 +11,13 @@ LiveScreen::LiveScreen() {
 	blackout->hide(); // Ensure that it isn't shown to begin with
 }
 
+void LiveScreen::blackoutWindow() {
+	if (blackout->isHidden())
+		blackout->show();
+	else
+		blackout->hide();
+}
+
 /**
  * Capture events
  */
