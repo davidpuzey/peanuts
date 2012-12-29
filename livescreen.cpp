@@ -11,11 +11,15 @@ LiveScreen::LiveScreen() {
 	blackoutScreen->hide(); // Ensure that it isn't shown to begin with
 }
 
+/**
+ * Toggles blackout screen
+ */
 void LiveScreen::blackoutWindow() {
 	if (blackoutScreen->isHidden())
 		blackoutScreen->show();
 	else
 		blackoutScreen->hide();
+	emit isBlackout(!blackoutScreen->isHidden());
 }
 
 /**

@@ -8,6 +8,7 @@ class LiveScreen : public QWidget {
 	
 	signals:
 		void liveClosed(); // Used to indicate when the live screen has been closed
+		void isBlackout(bool); // Indicates whether the screen is blacked out or not
 	
 	public slots:
 		void blackoutWindow();
