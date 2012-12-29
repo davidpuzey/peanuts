@@ -12,4 +12,5 @@ class LiveScreen : public QWidget {
 	private:
 		void closeEvent(QCloseEvent *event);
 		void showEvent(QShowEvent *event);
+		QWidget *blackout;
 };
