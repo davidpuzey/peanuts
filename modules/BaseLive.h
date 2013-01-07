@@ -1,5 +1,5 @@
 #include <QtGui>
 
-class BaseLive extends QWidget {
+class BaseLive: public QWidget {
 	QOBJECT
 }

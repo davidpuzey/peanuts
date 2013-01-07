@@ -1,5 +1,5 @@
 #include <QtGui>
 
-clasee BaseControl extend QWidget {
+class BaseControl: public QWidget {
 	QOBJECT
 }
