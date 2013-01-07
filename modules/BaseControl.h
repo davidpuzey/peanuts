@@ -1,5 +1,8 @@
 #include <QtGui>
 
-class BaseControl: public QWidget {
-	QOBJECT
-}
+class BaseControl : public QWidget {
+	Q_OBJECT
+	
+	public:
+		BaseControl();
+};

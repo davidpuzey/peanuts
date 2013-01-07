@@ -1,5 +1,8 @@
 #include <QtGui>
 
-class BaseLive: public QWidget {
-	QOBJECT
-}
+class BaseLive : public QWidget {
+	Q_OBJECT
+	
+	public:
+		BaseLive();
+};
