@@ -18,8 +18,16 @@ MainWindow::MainWindow() {
 	connect(quitShortcut, SIGNAL(activated()), this, SLOT(closeLiveScreen()));
 	
 	QVBoxLayout *layout = new QVBoxLayout(this);
-	layout->addWidget(goLiveButton);
-	layout->addWidget(blackoutButton);
+	
+	QHBoxLayout *toolBar = new QHBoxLayout();
+	toolBar->addWidget(goLiveButton);
+	toolBar->addWidget(blackoutButton);
+	
+	QHBoxLayout *mainArea = new QHBoxLayout();
+	mainArea->addWidget(new QTabWidget);
+	
+	layout->addLayout(toolBar);
+	layout->addLayout(mainArea);
 	
 	setLayout(layout);
 	
