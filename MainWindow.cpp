@@ -1,5 +1,7 @@
 #include <QtGui>
 #include "MainWindow.h"
+#include "modules/BaseModule.h"
+#include "modules/PrizeBoardModule.h"
 
 MainWindow::MainWindow() {
 	currentLiveState = false;
@@ -24,7 +26,10 @@ MainWindow::MainWindow() {
 	toolBar->addWidget(blackoutButton);
 	
 	QHBoxLayout *mainArea = new QHBoxLayout();
-	mainArea->addWidget(new QTabWidget);
+	QTabWidget *tehTabs = new QTabWidget();
+	tehTabs->addTab(new PrizeBoardControl, "Prize Board");
+	tehTabs->addTab(new BaseControl, "Base");
+	mainArea->addWidget(tehTabs);
 	
 	layout->addLayout(toolBar);
 	layout->addLayout(mainArea);

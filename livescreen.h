@@ -17,4 +17,5 @@ class LiveScreen : public QWidget {
 		void closeEvent(QCloseEvent *event);
 		void showEvent(QShowEvent *event);
 		QWidget *blackoutScreen;
+		QStackedWidget *screenStack;
 };
