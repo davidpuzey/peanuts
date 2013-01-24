@@ -1,3 +1,6 @@
+#ifndef BASEMODULE
+#define BASEMODULE
+
 #include <QtGui>
 
 class BaseControl : public QWidget {
@@ -26,12 +29,17 @@ class BaseModule : public QWidget {
 		BaseModule();
 		BaseControl* getControlWidget();
 		BaseLive* getLiveWidget();
+		QString getTitle();
 	
 	private:
 		BaseControl *controlWidget;
 		BaseLive *liveWidget;
+		QString title;
 	
 	protected:
 		void setControlWidget(BaseControl *widget);
 		void setLiveWidget(BaseLive *widget);
+		void setTitle(QString newTitle);
 };
+
+#endif

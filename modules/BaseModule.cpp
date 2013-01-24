@@ -23,6 +23,14 @@ BaseLive* BaseModule::getLiveWidget() {
 	return liveWidget;
 }
 
+void BaseModule::setTitle(QString newTitle) {
+	title = newTitle;
+}
+
+QString BaseModule::getTitle() {
+	return title;
+}
+
 
 /********* BASE CONTROL *********/
 BaseControl::BaseControl() {
