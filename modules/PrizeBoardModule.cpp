@@ -4,6 +4,7 @@
 PrizeBoardModule::PrizeBoardModule() {
 	setControlWidget(new PrizeBoardControl);
 	setLiveWidget(new PrizeBoardLive);
+	setTitle("Prize Board");
 }
 
 PrizeBoardControl::PrizeBoardControl() {
