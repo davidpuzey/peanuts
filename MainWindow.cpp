@@ -1,6 +1,5 @@
 #include <QtGui>
 #include "MainWindow.h"
-#include "modules/BaseModule.h"
 #include "modules/PrizeBoardModule.h"
 
 MainWindow::MainWindow() {
@@ -27,7 +26,8 @@ MainWindow::MainWindow() {
 	
 	QHBoxLayout *mainArea = new QHBoxLayout();
 	QTabWidget *tehTabs = new QTabWidget();
-	tehTabs->addTab(new PrizeBoardControl, "Prize Board");
+	PrizeBoardModule *prizeboard = new PrizeBoardModule();
+	tehTabs->addTab(prizeboard->getControlWidget(), "Prize Board");
 	tehTabs->addTab(new BaseControl, "Base");
 	mainArea->addWidget(tehTabs);
 	

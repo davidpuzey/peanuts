@@ -3,21 +3,23 @@
 
 /********* BASE MODULE *********/
 BaseModule::BaseModule() {
+	controlWidget = new BaseControl;
+	liveWidget = new BaseLive;
 }
 
-BaseModule::setControlWidget(BaseControl *widget) {
+void BaseModule::setControlWidget(BaseControl *widget) {
 	controlWidget = widget;
 }
 
-BaseModule::setLiveWidget(BaseLive *widget) {
+void BaseModule::setLiveWidget(BaseLive *widget) {
 	liveWidget = widget;
 }
 
-BaseModule::getControlWidget() {
+BaseControl* BaseModule::getControlWidget() {
 	return controlWidget;
 }
 
-BaseModule::getLiveWidget() {
+BaseLive* BaseModule::getLiveWidget() {
 	return liveWidget;
 }
 
@@ -29,4 +31,10 @@ BaseControl::BaseControl() {
 
 /********* BASE LIVE *********/
 BaseLive::BaseLive() {
+}
+
+void BaseLive::showEvent(QShowEvent *widget) {
+}
+
+void BaseLive::hideEvent(QHideEvent *widget) {
 }
