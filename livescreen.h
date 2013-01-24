@@ -1,4 +1,5 @@
 #include <QtGui>
+#include "modules/BaseModule.h"
 
 class LiveScreen : public QWidget {
 	Q_OBJECT
@@ -12,6 +13,7 @@ class LiveScreen : public QWidget {
 	
 	public slots:
 		void blackoutWindow();
+		void addModule(BaseModule *module);
 	
 	private:
 		void closeEvent(QCloseEvent *event);
