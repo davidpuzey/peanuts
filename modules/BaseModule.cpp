@@ -5,6 +5,7 @@
 BaseModule::BaseModule() {
 	controlWidget = new BaseControl;
 	liveWidget = new BaseLive;
+	setTitle("Base");
 }
 
 void BaseModule::setControlWidget(BaseControl *widget) {
