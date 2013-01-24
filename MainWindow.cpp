@@ -25,11 +25,9 @@ MainWindow::MainWindow() {
 	toolBar->addWidget(blackoutButton);
 	
 	QHBoxLayout *mainArea = new QHBoxLayout();
-	QTabWidget *tehTabs = new QTabWidget();
-	PrizeBoardModule *prizeboard = new PrizeBoardModule();
-	tehTabs->addTab(prizeboard->getControlWidget(), "Prize Board");
-	tehTabs->addTab(new BaseControl, "Base");
+	tehTabs = new QTabWidget();
 	mainArea->addWidget(tehTabs);
+	addModule(new PrizeBoardModule);
 	
 	layout->addLayout(toolBar);
 	layout->addLayout(mainArea);
@@ -70,4 +68,10 @@ void MainWindow::setLiveState(bool state) {
 	currentLiveState = (state) ? true : false;
 	livescreen->setVisible(currentLiveState);
 	emit isLiveSignal(currentLiveState);
+}
+
+void MainWindow::addModule(BaseModule *module) {
+	
+	tehTabs->addTab(module->getControlWidget(), module->getTitle());
+	tehTabs->addTab(new BaseControl, "Base");
 }

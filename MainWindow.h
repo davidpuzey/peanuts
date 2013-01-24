@@ -1,5 +1,6 @@
 #include <QtGui>
 #include "livescreen.h"
+#include "modules/BaseModule.h"
 
 class MainWindow : public QWidget {
     Q_OBJECT
@@ -18,9 +19,11 @@ class MainWindow : public QWidget {
 	private:
 		QPushButton *goLiveButton;
 		QPushButton *blackoutButton;
-		bool isLive();
-		void setLiveState(bool);
 		bool currentLiveState;
 		LiveScreen *livescreen;
+		QTabWidget *tehTabs;
+		bool isLive();
+		void setLiveState(bool);
+		void addModule(BaseModule *module);
 		void closeEvent(QCloseEvent *event);
 };
