@@ -13,7 +13,7 @@ class LiveScreen : public QWidget {
 	
 	public slots:
 		void blackoutWindow();
-		void addModule(BaseModule *module);
+		int addModule(BaseModule *module);
 	
 	private:
 		void closeEvent(QCloseEvent *event);

@@ -27,8 +27,11 @@ void LiveScreen::blackoutWindow() {
 	emit isBlackout(!blackoutScreen->isHidden());
 }
 
-void LiveScreen::addModule(BaseModule *module) {
-	screenStack->addWidget(module->getLiveWidget());
+/**
+ * addModule - Adds a livescreen module to the livescreen stack and returns it's index position
+ */
+int LiveScreen::addModule(BaseModule *module) {
+	return screenStack->addWidget(module->getLiveWidget());
 }
 
 /**
