@@ -28,7 +28,7 @@ MainWindow::MainWindow() {
 	tehTabs = new QTabWidget();
 	mainArea->addWidget(tehTabs);
 	addModule(new PrizeBoardModule);
-	addModule(new BaseModule);
+	//addModule(new BaseModule);
 	
 	layout->addLayout(toolBar);
 	layout->addLayout(mainArea);
@@ -73,4 +73,5 @@ void MainWindow::setLiveState(bool state) {
 
 void MainWindow::addModule(BaseModule *module) {
 	tehTabs->addTab(module->getControlWidget(), module->getTitle());
+	livescreen->addModule(module);
 }
