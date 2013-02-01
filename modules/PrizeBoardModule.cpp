@@ -39,6 +39,7 @@ PrizeBoardLive::PrizeBoardLive() {
 	
 	for (int i = 0; i < noButtons; i++) {
 		QLabel *label = new QLabel(QString::number(i+1), this);
+		label->setStyleSheet("font-size: 50pt; color: red; font-weight: bold; border: 10px solid #000; qproperty-alignment: AlignCenter;");
 		if (i < cellSwitch)
 			layout->addWidget(label, i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
 		else
