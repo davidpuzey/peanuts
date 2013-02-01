@@ -17,6 +17,8 @@ PrizeBoardControl::PrizeBoardControl() {
 	
 	for (int i = 0; i < noButtons; i++) {
 		QPushButton *button = new QPushButton(QString::number(i+1), this);
+		button->setCheckable(true);
+		connect(button, SIGNAL(clicked(bool)), button, SLOT(setDisabled(bool)));
 		if (i < cellSwitch)
 			layout->addWidget(button, i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
 		else
