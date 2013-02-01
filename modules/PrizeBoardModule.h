@@ -13,5 +13,6 @@ class PrizeBoardControl : public BaseControl {
 };
 
 class PrizeBoardLive : public BaseLive {
-
+	public:
+		PrizeBoardLive();
 };

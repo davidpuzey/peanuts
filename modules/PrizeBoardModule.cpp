@@ -27,3 +27,7 @@ PrizeBoardControl::PrizeBoardControl() {
 	
 	setLayout(layout);
 }
+
+PrizeBoardLive::PrizeBoardLive() {
+	QPushButton("Stuff", this);
+}
