@@ -3,6 +3,7 @@
 #include "modules/PrizeBoardModule.h"
 
 MainWindow::MainWindow() {
+	setWindowTitle(tr("Peanuts"));
 	currentLiveState = false;
 	livescreen = new LiveScreen;
 	QShortcut *quitShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), livescreen);
@@ -12,30 +13,34 @@ MainWindow::MainWindow() {
 	blackoutButton = new QPushButton("Blackout");
 	blackoutButton->setCheckable(true);
 	
-	connect(goLiveButton, SIGNAL(clicked()), this, SLOT(toggleLiveScreen()));
-	connect(blackoutButton, SIGNAL(clicked()), livescreen, SLOT(blackoutWindow()));
-	connect(this, SIGNAL(isLiveSignal(bool)), goLiveButton, SLOT(setChecked(bool)));
-	connect(livescreen, SIGNAL(liveClosed()), this, SLOT(closeLiveScreen()));
-	connect(quitShortcut, SIGNAL(activated()), this, SLOT(closeLiveScreen()));
-	
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	
 	QHBoxLayout *toolBar = new QHBoxLayout();
 	toolBar->addWidget(goLiveButton);
 	toolBar->addWidget(blackoutButton);
 	
+	liveSelectButtons = new QHBoxLayout();
+	liveSelectGroup = new QButtonGroup();
+	
 	QHBoxLayout *mainArea = new QHBoxLayout();
 	tehTabs = new QTabWidget();
 	mainArea->addWidget(tehTabs);
 	addModule(new PrizeBoardModule);
-	//addModule(new BaseModule);
+	addModule(new BaseModule);
 	
 	layout->addLayout(toolBar);
+	layout->addLayout(liveSelectButtons);
 	layout->addLayout(mainArea);
 	
 	setLayout(layout);
 	
-	setWindowTitle(tr("Peanuts"));
+	// Decided that this stuff is best down here as things go wrong if objects haven't been created before I try to connect them
+	connect(goLiveButton, SIGNAL(clicked()), this, SLOT(toggleLiveScreen()));
+	connect(blackoutButton, SIGNAL(clicked()), livescreen, SLOT(blackoutWindow()));
+	connect(this, SIGNAL(isLiveSignal(bool)), goLiveButton, SLOT(setChecked(bool)));
+	connect(livescreen, SIGNAL(liveClosed()), this, SLOT(closeLiveScreen()));
+	connect(quitShortcut, SIGNAL(activated()), this, SLOT(closeLiveScreen()));
+	connect(liveSelectGroup, SIGNAL(buttonClicked(int)), livescreen, SLOT(switchLivescreen(int)));
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -72,6 +77,16 @@ void MainWindow::setLiveState(bool state) {
 }
 
 void MainWindow::addModule(BaseModule *module) {
+	// Add the livescreen module
+	int moduleIndex = livescreen->addModule(module);
+	
+	// Add a button to switch the livescreen module
+	QPushButton *zeButton = new QPushButton(module->getTitle());
+	zeButton->setCheckable(true);
+	liveSelectButtons->addWidget(zeButton);
+	liveSelectGroup->addButton(zeButton);
+	liveSelectGroup->setId(zeButton, moduleIndex);
+	
+	//Add a tab to switch to the controls
 	tehTabs->addTab(module->getControlWidget(), module->getTitle());
-	livescreen->addModule(module);
 }

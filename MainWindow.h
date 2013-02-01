@@ -22,6 +22,8 @@ class MainWindow : public QWidget {
 		bool currentLiveState;
 		LiveScreen *livescreen;
 		QTabWidget *tehTabs;
+		QHBoxLayout *liveSelectButtons;
+		QButtonGroup *liveSelectGroup;
 		bool isLive();
 		void setLiveState(bool);
 		void addModule(BaseModule *module);
