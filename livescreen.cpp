@@ -35,6 +35,13 @@ int LiveScreen::addModule(BaseModule *module) {
 }
 
 /**
+ * switchLivescreen - Switches to a specific livescreen based upon a provided index
+ */
+ void LiveScreen::switchLivescreen(int index) {
+	screenStack->setCurrentIndex(index);
+ }
+
+/**
  * Capture events
  */
 /**
