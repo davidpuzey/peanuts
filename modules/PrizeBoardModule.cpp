@@ -2,9 +2,10 @@
 #include "PrizeBoardModule.h"
 
 PrizeBoardModule::PrizeBoardModule() {
+	setTitle("Prize Board");
 	setControlWidget(new PrizeBoardControl);
 	setLiveWidget(new PrizeBoardLive);
-	setTitle("Prize Board");
+	connect(getControlWidget(), SIGNAL(numberClicked(int)), getLiveWidget(), SLOT(chooseNumber(int)));
 }
 
 PrizeBoardControl::PrizeBoardControl() {
@@ -19,6 +20,8 @@ PrizeBoardControl::PrizeBoardControl() {
 		QPushButton *button = new QPushButton(QString::number(i+1), this);
 		button->setCheckable(true);
 		connect(button, SIGNAL(clicked(bool)), button, SLOT(setDisabled(bool)));
+		//connect(button, SIGNAL(clicked()), this, SIGNAL(numberClicked(i)));
+		connect(button, SIGNAL(clicked()), this, SLOT(buttonClicked(i)));
 		if (i < cellSwitch)
 			layout->addWidget(button, i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
 		else
@@ -29,6 +32,10 @@ PrizeBoardControl::PrizeBoardControl() {
 		layout->addLayout(lastRow, layout->rowCount(), 0, 1, cols); // Add the last row in seperately, this allows us to centre the buttons is there are less than the number of columns
 	
 	setLayout(layout);
+}
+
+void PrizeBoardControl::buttonClicked(int number) {
+	emit numberClicked(number);
 }
 
 PrizeBoardLive::PrizeBoardLive() {
@@ -42,6 +49,8 @@ PrizeBoardLive::PrizeBoardLive() {
 	for (int i = 0; i < noButtons; i++) {
 		QLabel *label = new QLabel(QString::number(i+1), this);
 		label->setStyleSheet("font-size: 50pt; color: red; font-weight: bold; border: 10px solid #000; qproperty-alignment: AlignCenter;");
+		numbers[i] = label;
+		
 		if (i < cellSwitch)
 			layout->addWidget(label, i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
 		else
@@ -52,4 +61,8 @@ PrizeBoardLive::PrizeBoardLive() {
 		layout->addLayout(lastRow, layout->rowCount(), 0, 1, cols); // Add the last row in seperately, this allows us to centre the buttons is there are less than the number of columns
 	
 	setLayout(layout);
+}
+
+void PrizeBoardLive::chooseNumber(int number) {
+	numbers[number]->hide();
 }

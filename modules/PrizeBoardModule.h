@@ -9,10 +9,21 @@ class PrizeBoardModule : public BaseModule {
 class PrizeBoardControl : public BaseControl {
 	public:
 		PrizeBoardControl();
-
+	
+	signals:
+		void numberClicked(int);
+	
+	public slots:
+		void buttonClicked(int number);
 };
 
 class PrizeBoardLive : public BaseLive {
 	public:
 		PrizeBoardLive();
+	
+	public slots:
+		void chooseNumber(int number);
+	
+	private:
+		QLabel *numbers[25];
 };
