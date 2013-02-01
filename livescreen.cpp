@@ -6,12 +6,14 @@ LiveScreen::LiveScreen() {
 	setCursor(QCursor(Qt::BlankCursor));
 	setWindowTitle(tr("Live Screen"));
 	
-	screenStack = new QStackedWidget(this);
+	screenStack = new QStackedLayout();
 	
 	blackoutScreen = new QWidget(); // This feels like a hack, but after some research I decided that it was the easiest way. Will look into a better solution once everything is done.
 	blackoutScreen->setStyleSheet("background-color: black;"); // Black as it's the blackout screen
-	blackoutScreen->hide(); // Ensure that it isn't shown to begin with
 	screenStack->addWidget(blackoutScreen);
+	blackoutScreen->hide(); // Ensure that it isn't shown to begin with
+	//screenStack->setCurrentWidget(blackoutScreen);
+	setLayout(screenStack);
 }
 
 /**
