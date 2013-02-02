@@ -1,3 +1,4 @@
+#include <ctime>
 #include <QtGui>
 #include "PrizeBoardModule.h"
 
@@ -50,12 +51,29 @@ PrizeBoardLive::PrizeBoardLive() {
 	int cols = qCeil(qSqrt(noButtons)); // The closest square root value (works out best fit for the items)
 	int cellSwitch = noButtons - (noButtons % cols); // The cell at which the last row starts
 	
+	
+	/* Assign and randomise prizes */
+	int i = 0; // Keep track of the current array item
+	int x = qCeil((noButtons*0.3)+0.5); // The point at which the prizes switch from silver to bronze, I'm thinking maybe about 30% of the total number are silver prizes
+	prizes = new char[noButtons];
+	
+	prizes[0] = 'G'; // Since we only want 1 gold we shall assign that now
+	for (i = 1; i < x; i++) prizes[i] = 'S'; // Assign silver prizes
+	for (;i < noButtons; i++) prizes[i] = 'B'; // Assing the rest as silver prizes
+	
+	qsrand(time(0));
+	for (i = 0; i < noButtons; i++) { // Shuffle prizes
+		int j = qrand() % noButtons;
+		char cur = prizes[i];
+		prizes[i] = prizes[j];
+		prizes[j] = cur;
+	}
+	
 	numbers = new QLabelArray[noButtons];
 	
 	for (int i = 0; i < noButtons; i++) {
 		numbers[i] = new QLabel(QString::number(i+1), this);
 		numbers[i]->setStyleSheet("font-size: 50pt; color: red; font-weight: bold; border: 10px solid #000; qproperty-alignment: AlignCenter;");
-		
 		
 		if (i < cellSwitch)
 			layout->addWidget(numbers[i], i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
@@ -70,7 +88,16 @@ PrizeBoardLive::PrizeBoardLive() {
 }
 
 void PrizeBoardLive::chooseNumber(int number) {
-	numbers[number]->hide();
+	numbers[number]->setText(QString(QChar(prizes[number])));
 	if (isVisible())
-		QSound::play("success.wav");
+		switch(prizes[number]) {
+			case 'B':
+				QSound::play("PrizeBronze.wav");
+				return;
+			case 'S':
+				return;
+			case 'G':
+				QSound::play("PrizeGold.wav");
+				return;
+		}
 }

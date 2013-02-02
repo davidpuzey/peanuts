@@ -32,4 +32,5 @@ class PrizeBoardLive : public BaseLive {
 	
 	private:
 		QLabelArray *numbers;
+		char *prizes;
 };
