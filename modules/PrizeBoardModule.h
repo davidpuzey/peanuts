@@ -1,6 +1,8 @@
 #include <QtGui>
 #include "BaseModule.h"
 
+typedef QLabel* QLabelArray;
+
 class PrizeBoardModule : public BaseModule {
 	Q_OBJECT
 	
@@ -21,6 +23,7 @@ class PrizeBoardControl : public BaseControl {
 class PrizeBoardLive : public BaseLive {
 	Q_OBJECT
 	
+	
 	public:
 		PrizeBoardLive();
 	
@@ -28,5 +31,5 @@ class PrizeBoardLive : public BaseLive {
 		void chooseNumber(int number);
 	
 	private:
-		QLabel *numbers[25];
+		QLabelArray *numbers;
 };

@@ -50,15 +50,17 @@ PrizeBoardLive::PrizeBoardLive() {
 	int cols = qCeil(qSqrt(noButtons)); // The closest square root value (works out best fit for the items)
 	int cellSwitch = noButtons - (noButtons % cols); // The cell at which the last row starts
 	
+	numbers = new QLabelArray[noButtons];
+	
 	for (int i = 0; i < noButtons; i++) {
-		QLabel *label = new QLabel(QString::number(i+1), this);
-		label->setStyleSheet("font-size: 50pt; color: red; font-weight: bold; border: 10px solid #000; qproperty-alignment: AlignCenter;");
-		numbers[i] = label;
+		numbers[i] = new QLabel(QString::number(i+1), this);
+		numbers[i]->setStyleSheet("font-size: 50pt; color: red; font-weight: bold; border: 10px solid #000; qproperty-alignment: AlignCenter;");
+		
 		
 		if (i < cellSwitch)
-			layout->addWidget(label, i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
+			layout->addWidget(numbers[i], i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
 		else
-			lastRow->addWidget(label);
+			lastRow->addWidget(numbers[i]);
 	}
 	
 	if (cellSwitch != 0)
