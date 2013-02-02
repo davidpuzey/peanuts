@@ -8,16 +8,19 @@ MainWindow::MainWindow() {
 	livescreen = new LiveScreen;
 	QShortcut *quitShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), livescreen);
 	
-	goLiveButton = new QPushButton("Go Live");
-	goLiveButton->setCheckable(true);
+	clearButton = new QPushButton("Clear");
+	clearButton->setCheckable(true);
 	blackoutButton = new QPushButton("Blackout");
 	blackoutButton->setCheckable(true);
+	goLiveButton = new QPushButton("Go Live");
+	goLiveButton->setCheckable(true);
 	
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	
 	QHBoxLayout *toolBar = new QHBoxLayout();
-	toolBar->addWidget(goLiveButton);
+	toolBar->addWidget(clearButton);
 	toolBar->addWidget(blackoutButton);
+	toolBar->addWidget(goLiveButton);
 	
 	liveSelectButtons = new QHBoxLayout();
 	liveSelectGroup = new QButtonGroup();
@@ -37,6 +40,7 @@ MainWindow::MainWindow() {
 	// Decided that this stuff is best down here as things go wrong if objects haven't been created before I try to connect them
 	connect(goLiveButton, SIGNAL(clicked()), this, SLOT(toggleLiveScreen()));
 	connect(blackoutButton, SIGNAL(clicked()), livescreen, SLOT(blackoutWindow()));
+	connect(clearButton, SIGNAL(clicked()), livescreen, SLOT(clearWindow()));
 	connect(this, SIGNAL(isLiveSignal(bool)), goLiveButton, SLOT(setChecked(bool)));
 	connect(livescreen, SIGNAL(liveClosed()), this, SLOT(closeLiveScreen()));
 	connect(quitShortcut, SIGNAL(activated()), this, SLOT(closeLiveScreen()));

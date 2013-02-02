@@ -17,8 +17,9 @@ class MainWindow : public QWidget {
 		void isLiveSignal(bool); // Determines the live states, set true for live, set false for not live
 
 	private:
-		QPushButton *goLiveButton;
+		QPushButton *clearButton;
 		QPushButton *blackoutButton;
+		QPushButton *goLiveButton;
 		bool currentLiveState;
 		LiveScreen *livescreen;
 		QTabWidget *tehTabs;
