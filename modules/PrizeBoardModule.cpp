@@ -69,4 +69,5 @@ PrizeBoardLive::PrizeBoardLive() {
 
 void PrizeBoardLive::chooseNumber(int number) {
 	numbers[number]->hide();
+	QSound::play("success.wav");
 }
