@@ -2,6 +2,9 @@
 debug
 release
 
+# Some files that don't seem too important
+object_script*
+
 # Ignore makefiles for now as they are generated with qmake - if I get round to making my own then I'll remove this
 Makefile*
 
