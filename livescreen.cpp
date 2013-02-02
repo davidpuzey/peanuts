@@ -2,7 +2,7 @@
 #include "livescreen.h"
 
 LiveScreen::LiveScreen() {
-	setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint); // Setting up for full screen (on show we set the position of the window)
+	setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::SplashScreen); // Setting up for full screen (on show we set the position of the window)
 	setCursor(QCursor(Qt::BlankCursor));
 	setWindowTitle(tr("Live Screen"));
 	
