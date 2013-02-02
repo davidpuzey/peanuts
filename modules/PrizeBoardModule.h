@@ -2,22 +2,25 @@
 #include "BaseModule.h"
 
 class PrizeBoardModule : public BaseModule {
+	Q_OBJECT
+	
 	public:
 		PrizeBoardModule();
 };
 
 class PrizeBoardControl : public BaseControl {
+	Q_OBJECT
+	
 	public:
 		PrizeBoardControl();
 	
 	signals:
 		void numberClicked(int);
-	
-	public slots:
-		void buttonClicked(int number);
 };
 
 class PrizeBoardLive : public BaseLive {
+	Q_OBJECT
+	
 	public:
 		PrizeBoardLive();
 	

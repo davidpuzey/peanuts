@@ -5,7 +5,9 @@ PrizeBoardModule::PrizeBoardModule() {
 	setTitle("Prize Board");
 	setControlWidget(new PrizeBoardControl);
 	setLiveWidget(new PrizeBoardLive);
-	connect(getControlWidget(), SIGNAL(numberClicked(int)), getLiveWidget(), SLOT(chooseNumber(int)));
+	BaseControl *control = getControlWidget();
+	BaseLive *live = getLiveWidget();
+	connect(control, SIGNAL(numberClicked(int)), live, SLOT(chooseNumber(int)));
 }
 
 PrizeBoardControl::PrizeBoardControl() {
@@ -16,12 +18,16 @@ PrizeBoardControl::PrizeBoardControl() {
 	int cols = qCeil(qSqrt(noButtons)); // The closest square root value (works out best fit for the items)
 	int cellSwitch = noButtons - (noButtons % cols); // The cell at which the last row starts
 	
+	// QSignalMapper seems to be the only way to pass the number clicked through (or at least the only way my limited googling turned up)
+	QSignalMapper *signalMapper = new QSignalMapper(this);
+	
 	for (int i = 0; i < noButtons; i++) {
 		QPushButton *button = new QPushButton(QString::number(i+1), this);
 		button->setCheckable(true);
 		connect(button, SIGNAL(clicked(bool)), button, SLOT(setDisabled(bool)));
-		//connect(button, SIGNAL(clicked()), this, SIGNAL(numberClicked(i)));
-		connect(button, SIGNAL(clicked()), this, SLOT(buttonClicked(i)));
+		connect(button, SIGNAL(clicked()), signalMapper, SLOT(map()));
+		signalMapper->setMapping(button, i);
+		
 		if (i < cellSwitch)
 			layout->addWidget(button, i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
 		else
@@ -31,11 +37,9 @@ PrizeBoardControl::PrizeBoardControl() {
 	if (cellSwitch != 0)
 		layout->addLayout(lastRow, layout->rowCount(), 0, 1, cols); // Add the last row in seperately, this allows us to centre the buttons is there are less than the number of columns
 	
+	connect(signalMapper, SIGNAL(mapped(int)), this, SIGNAL(numberClicked(int)));
+	
 	setLayout(layout);
-}
-
-void PrizeBoardControl::buttonClicked(int number) {
-	emit numberClicked(number);
 }
 
 PrizeBoardLive::PrizeBoardLive() {
