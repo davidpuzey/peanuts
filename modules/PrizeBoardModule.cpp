@@ -73,7 +73,7 @@ PrizeBoardLive::PrizeBoardLive() {
 	
 	for (int i = 0; i < noButtons; i++) {
 		numbers[i] = new QLabel(QString::number(i+1), this);
-		numbers[i]->setStyleSheet("font-size: 50pt; color: red; font-weight: bold; border: 10px solid #000; qproperty-alignment: AlignCenter;");
+		numbers[i]->setStyleSheet("font-size: 50pt; color: red; font-weight: bold; qproperty-alignment: AlignCenter;");
 		
 		if (i < cellSwitch)
 			layout->addWidget(numbers[i], i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
@@ -95,6 +95,7 @@ void PrizeBoardLive::chooseNumber(int number) {
 				QSound::play("PrizeBronze.wav");
 				return;
 			case 'S':
+				QSound::play("PrizeSilver.wav");
 				return;
 			case 'G':
 				QSound::play("PrizeGold.wav");
