@@ -15,7 +15,7 @@ PrizeBoardControl::PrizeBoardControl() {
 	QGridLayout *layout = new QGridLayout(this);
 	QHBoxLayout *lastRow = new QHBoxLayout();
 	
-	int noButtons = 100;
+	int noButtons = 24;
 	int cols = qCeil(qSqrt(noButtons)); // The closest square root value (works out best fit for the items)
 	int cellSwitch = noButtons - (noButtons % cols); // The cell at which the last row starts
 	
@@ -48,7 +48,7 @@ PrizeBoardLive::PrizeBoardLive() {
 	QGridLayout *layout = new QGridLayout(this);
 	QHBoxLayout *lastRow = new QHBoxLayout();
 	
-	int noButtons = 100;
+	int noButtons = 24;
 	int cols = qCeil(qSqrt(noButtons)); // The closest square root value (works out best fit for the items)
 	int cellSwitch = noButtons - (noButtons % cols); // The cell at which the last row starts
 	
