@@ -21,10 +21,10 @@ LiveScreen::LiveScreen() {
 }
 
 /**
- * Toggles blackout screen
+ * Toggles blackout screen and sends out a signal indicating the new state of the blackout screen
  */
 void LiveScreen::blackoutWindow() {
-	blackoutScreen->raise();
+	blackoutScreen->raise(); // Ensure that the blackout screen is always on top of the everything
 	if (blackoutScreen->isHidden())
 		blackoutScreen->show();
 	else
