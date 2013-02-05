@@ -8,9 +8,9 @@ LiveScreen::LiveScreen() {
 	
 	screenStack = new QStackedWidget(this);
 	
-	blackoutScreen = new QWidget(); // This feels like a hack, but after some research I decided that it was the easiest way. Will look into a better solution once everything is done.
+	blackoutScreen = new QWidget(this); // This feels like a hack, but after some research I decided that it was the easiest way. Will look into a better solution once everything is done.
 	blackoutScreen->setStyleSheet("background-color: black;"); // Black as it's the blackout screen
-	screenStack->addWidget(blackoutScreen);
+	//screenStack->addWidget(blackoutScreen);
 	blackoutScreen->hide(); // Ensure that it isn't shown to begin with
 	//setLayout(screenStack);
 	
@@ -24,6 +24,7 @@ LiveScreen::LiveScreen() {
  * Toggles blackout screen
  */
 void LiveScreen::blackoutWindow() {
+	blackoutScreen->raise();
 	if (blackoutScreen->isHidden())
 		blackoutScreen->show();
 	else
