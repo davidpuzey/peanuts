@@ -76,8 +76,10 @@ PrizeBoardLive::PrizeBoardLive() {
 	numbers = new QLabelArray[noButtons];
 	
 	for (int i = 0; i < noButtons; i++) {
-		numbers[i] = new QLabel(QString::number(i+1), this);
-		numbers[i]->setStyleSheet("font-size: 50pt; color: red; font-weight: bold; qproperty-alignment: AlignCenter;");
+		//numbers[i] = new QLabel(QString::number(i+1), this);
+		numbers[i] = new QLabel(this);
+		numbers[i]->setPixmap(outlineText(QString::number(i+1)));
+		numbers[i]->setStyleSheet("qproperty-alignment: AlignCenter;");
 		
 		if (i < cellSwitch)
 			layout->addWidget(numbers[i], i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
@@ -92,7 +94,7 @@ PrizeBoardLive::PrizeBoardLive() {
 }
 
 void PrizeBoardLive::chooseNumber(int number) {
-	numbers[number]->setText(QString(QChar(prizes[number])));
+	//numbers[number]->setText(QString(QChar(prizes[number])));
 	QPixmap *prizeImage;
 	
 	switch(prizes[number]) {
@@ -112,7 +114,33 @@ void PrizeBoardLive::chooseNumber(int number) {
 	QPixmap smallerPrize = prizeImage->scaled(numbers[number]->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	QLabel *medal = new QLabel(numbers[number]->parentWidget());
 	medal->setPixmap(smallerPrize);
-	medal->resize(smallerPrize.size());
+	medal->resize(smallerPrize.size()); // Using . rather than -> with smallerPrize because smallerPrize isn't a pointer
 	medal->move(numbers[number]->geometry().center() - medal->geometry().center());
 	medal->show();
+}
+
+QPixmap PrizeBoardLive::outlineText(QString text) {
+	QPixmap *canvas = new QPixmap(200,200);
+	canvas->fill(Qt::transparent);
+	
+	QFont font;
+	font.setPointSize(60);
+	font.setBold(true);
+	
+	QPen pen; // Give a nice black outline
+	pen.setWidth(5);
+	
+	QPainterPath path; // Have to use path to get an outline
+	path.addText(0,90, font, text);
+	
+	QPainter painter(canvas); // Make the outlines text
+	painter.setBrush(QBrush(Qt::red));
+	painter.setPen(pen);
+	painter.setRenderHint(QPainter::Antialiasing);
+	painter.drawPath(path);
+	
+	painter.setFont(font); // Remove the rubbish from the image so we only have the text
+	QRect textBounds = painter.boundingRect(canvas->rect(), 0, text);
+	
+	return canvas->copy(textBounds);
 }

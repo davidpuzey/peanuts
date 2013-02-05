@@ -36,4 +36,5 @@ class PrizeBoardLive : public BaseLive {
 		QPixmap *prizeBronze;
 		QPixmap *prizeSilver;
 		QPixmap *prizeGold;
+		QPixmap outlineText(QString text);
 };
