@@ -31,6 +31,7 @@ MainWindow::MainWindow() {
 	addModule(new PrizeBoardModule);
 	addModule(new BaseModule);
 	
+	liveSelectButtons->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
 	layout->addLayout(toolBar);
 	layout->addLayout(liveSelectButtons);
 	layout->addLayout(mainArea);
@@ -90,6 +91,7 @@ void MainWindow::addModule(BaseModule *module) {
 	liveSelectButtons->addWidget(zeButton);
 	liveSelectGroup->addButton(zeButton);
 	liveSelectGroup->setId(zeButton, moduleIndex);
+	zeButton->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
 	
 	//Add a tab to switch to the controls
 	tehTabs->addTab(module->getControlWidget(), module->getTitle());
