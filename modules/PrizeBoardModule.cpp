@@ -47,6 +47,9 @@ PrizeBoardControl::PrizeBoardControl() {
 PrizeBoardLive::PrizeBoardLive() {
 	QGridLayout *layout = new QGridLayout(this);
 	QHBoxLayout *lastRow = new QHBoxLayout();
+	prizeBronze = new QPixmap("PrizeBronze.png");
+	prizeSilver = new QPixmap("PrizeSilver.png");
+	prizeGold = new QPixmap("PrizeGold.png");
 	
 	int noButtons = 24;
 	int cols = qCeil(qSqrt(noButtons)); // The closest square root value (works out best fit for the items)
@@ -90,16 +93,26 @@ PrizeBoardLive::PrizeBoardLive() {
 
 void PrizeBoardLive::chooseNumber(int number) {
 	numbers[number]->setText(QString(QChar(prizes[number])));
-	if (isVisible())
-		switch(prizes[number]) {
-			case 'B':
-				QSound::play("PrizeBronze.wav");
-				return;
-			case 'S':
-				QSound::play("PrizeSilver.wav");
-				return;
-			case 'G':
-				QSound::play("PrizeGold.wav");
-				return;
-		}
+	QPixmap *prizeImage;
+	
+	switch(prizes[number]) {
+		case 'B':
+			if (isVisible()) QSound::play("PrizeBronze.wav");
+			prizeImage = prizeBronze;
+			break;
+		case 'S':
+			if (isVisible()) QSound::play("PrizeSilver.wav");
+			prizeImage = prizeSilver;
+			break;
+		case 'G':
+			if (isVisible()) QSound::play("PrizeGold.wav");
+			prizeImage = prizeGold;
+			break;
+	}
+	QPixmap smallerPrize = prizeImage->scaled(numbers[number]->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	QLabel *medal = new QLabel(numbers[number]->parentWidget());
+	medal->setPixmap(smallerPrize);
+	medal->resize(smallerPrize.size());
+	medal->move(numbers[number]->geometry().center() - medal->geometry().center());
+	medal->show();
 }
