@@ -1,6 +1,7 @@
 #include <QtGui>
 #include "MainWindow.h"
 #include "modules/PrizeBoardModule.h"
+#include "modules/ThemeCutModule.h"
 
 MainWindow::MainWindow() {
 	setWindowTitle(tr("Peanuts"));
@@ -29,6 +30,7 @@ MainWindow::MainWindow() {
 	tehTabs = new QTabWidget();
 	mainArea->addWidget(tehTabs);
 	addModule(new PrizeBoardModule);
+	addModule(new ThemeCutModule);
 	addModule(new BaseModule);
 	
 	liveSelectButtons->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
@@ -37,6 +39,14 @@ MainWindow::MainWindow() {
 	layout->addLayout(mainArea);
 	
 	setLayout(layout);
+	
+	/*QPixmap *tehballon = new QPixmap("BalloonRed.png");
+	QWidget *balloons = new QWidget();
+	balloons->render(tehballon);
+	balloons->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::SplashScreen);
+	balloons->show();
+	QPushButton *buttonthing = new QPushButton("Stuff", balloons);
+	buttonthing->show();*/
 	
 	// Decided that this stuff is best down here as things go wrong if objects haven't been created before I try to connect them
 	connect(goLiveButton, SIGNAL(clicked()), this, SLOT(toggleLiveScreen()));
