@@ -33,7 +33,6 @@ MainWindow::MainWindow() {
 	addModule(new PrizeBoardModule);
 	addModule(new NumberChoiceModule);
 	addModule(new ThemeCutModule);
-	addModule(new BaseModule);
 	
 	liveSelectButtons->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
 	layout->addLayout(toolBar);
