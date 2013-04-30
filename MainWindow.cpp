@@ -2,6 +2,7 @@
 #include "MainWindow.h"
 #include "modules/PrizeBoardModule.h"
 #include "modules/ThemeCutModule.h"
+#include "modules/NumberChoiceModule.h"
 
 MainWindow::MainWindow() {
 	setWindowTitle(tr("Peanuts"));
@@ -30,6 +31,7 @@ MainWindow::MainWindow() {
 	tehTabs = new QTabWidget();
 	mainArea->addWidget(tehTabs);
 	addModule(new PrizeBoardModule);
+	addModule(new NumberChoiceModule);
 	addModule(new ThemeCutModule);
 	addModule(new BaseModule);
 	
