@@ -18,6 +18,7 @@ class NumberChoiceControl : public BaseControl {
 	
 	signals:
 		void numberClicked(int);
+		void resetAll(bool);
 };
 
 class NumberChoiceLive : public BaseLive {
@@ -27,12 +28,16 @@ class NumberChoiceLive : public BaseLive {
 	public:
 		NumberChoiceLive();
 	
+	signals:
+		void resetAll(bool);
+	
 	public slots:
 		void chooseNumber(int number);
 	
 	private:
 		QLabelArray *numbers;
 		char *prizes;
+		int noButtons;
 		QPixmap *prizeBronze;
 		QPixmap *prizeSilver;
 		QPixmap *prizeGold;

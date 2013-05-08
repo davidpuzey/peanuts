@@ -9,15 +9,21 @@ NumberChoiceModule::NumberChoiceModule() {
 	BaseControl *control = getControlWidget();
 	BaseLive *live = getLiveWidget();
 	connect(control, SIGNAL(numberClicked(int)), live, SLOT(chooseNumber(int)));
+	connect(control, SIGNAL(resetAll(bool)), live, SIGNAL(resetAll(bool)));
 }
 
 NumberChoiceControl::NumberChoiceControl() {
-	QGridLayout *layout = new QGridLayout(this);
+	QVBoxLayout *controlBtns = new QVBoxLayout(this);
+	QGridLayout *layout = new QGridLayout();
 	QHBoxLayout *lastRow = new QHBoxLayout();
 	
 	int noButtons = 25;
 	int cols = qCeil(qSqrt(noButtons)); // The closest square root value (works out best fit for the items)
 	int cellSwitch = noButtons - (noButtons % cols); // The cell at which the last row starts
+	
+	QPushButton *resetButton = new QPushButton("Reset");
+	controlBtns->addWidget(resetButton);
+	connect(resetButton, SIGNAL(clicked(bool)), this, SIGNAL(resetAll(bool)));
 	
 	// QSignalMapper seems to be the only way to pass the number clicked through (or at least the only way my limited googling turned up)
 	QSignalMapper *signalMapper = new QSignalMapper(this);
@@ -28,6 +34,8 @@ NumberChoiceControl::NumberChoiceControl() {
 		button->setCheckable(true);
 		connect(button, SIGNAL(clicked(bool)), button, SLOT(setDisabled(bool)));
 		connect(button, SIGNAL(clicked()), signalMapper, SLOT(map()));
+		connect(this, SIGNAL(resetAll(bool)), button, SLOT(setDisabled(bool)));
+		connect(this, SIGNAL(resetAll(bool)), button, SLOT(setChecked(bool)));
 		signalMapper->setMapping(button, i);
 		
 		if (i < cellSwitch)
@@ -39,9 +47,11 @@ NumberChoiceControl::NumberChoiceControl() {
 	if (cellSwitch != 0)
 		layout->addLayout(lastRow, layout->rowCount(), 0, 1, cols); // Add the last row in seperately, this allows us to centre the buttons is there are less than the number of columns
 	
+	controlBtns->addLayout(layout);
+	
 	connect(signalMapper, SIGNAL(mapped(int)), this, SIGNAL(numberClicked(int)));
 	
-	setLayout(layout);
+	setLayout(controlBtns);
 }
 
 NumberChoiceLive::NumberChoiceLive() {
@@ -51,10 +61,9 @@ NumberChoiceLive::NumberChoiceLive() {
 	prizeSilver = new QPixmap("Prize10.png");
 	prizeGold = new QPixmap("Prize25.png");
 	
-	int noButtons = 25;
+	noButtons = 25;
 	int cols = qCeil(qSqrt(noButtons)); // The closest square root value (works out best fit for the items)
 	int cellSwitch = noButtons - (noButtons % cols); // The cell at which the last row starts
-	
 	
 	/* Assign and randomise prizes */
 	int i = 0; // Keep track of the current array item
@@ -113,10 +122,12 @@ void NumberChoiceLive::chooseNumber(int number) {
 	}
 	QPixmap smallerPrize = prizeImage->scaled(numbers[number]->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	QLabel *medal = new QLabel(numbers[number]->parentWidget());
+	medal->setAttribute(Qt::WA_DeleteOnClose);
 	medal->setPixmap(smallerPrize);
 	medal->resize(smallerPrize.size()); // Using . rather than -> with smallerPrize because smallerPrize isn't a pointer
 	medal->move(numbers[number]->geometry().center() - medal->geometry().center());
 	medal->show();
+	connect(this, SIGNAL(resetAll(bool)), medal, SLOT(close()));
 }
 
 QPixmap NumberChoiceLive::outlineText(QString text) {
