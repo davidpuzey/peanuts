@@ -34,6 +34,9 @@ class NumberChoiceLive : public BaseLive {
 	public slots:
 		void chooseNumber(int number);
 	
+	private slots:
+		void randomizePrizes();
+	
 	private:
 		QLabelArray *numbers;
 		char *prizes;

@@ -81,6 +81,7 @@ NumberChoiceLive::NumberChoiceLive() {
 		prizes[i] = prizes[j];
 		prizes[j] = cur;
 	}
+	connect(this, SIGNAL(resetAll(bool)), this, SLOT(randomizePrizes()));
 	
 	numbers = new QLabelArray[noButtons];
 	
@@ -154,4 +155,14 @@ QPixmap NumberChoiceLive::outlineText(QString text) {
 	QRect textBounds = painter.boundingRect(canvas->rect(), 0, text);
 	
 	return canvas->copy(textBounds);
+}
+
+void NumberChoiceLive::randomizePrizes() {
+	qsrand(time(0));
+	for (int i = 0; i < noButtons; i++) { // Shuffle prizes
+		int j = qrand() % noButtons;
+		char cur = prizes[i];
+		prizes[i] = prizes[j];
+		prizes[j] = cur;
+	}
 }
