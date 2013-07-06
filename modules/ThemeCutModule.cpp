@@ -26,11 +26,11 @@ ThemeCutControl::ThemeCutControl() {
 }
 
 void ThemeCutControl::playTheme() {
-	QSound::play("theme.wav");
+	QSound::play("media/sounds/theme.wav");
 }
 
 void ThemeCutControl::playCut() {
-	QSound::play("cut.wav");
+	QSound::play("media/sounds/cut.wav");
 }
 
 ThemeCutLive::ThemeCutLive() {

@@ -74,7 +74,7 @@ void LiveScreen::closeEvent(QCloseEvent *event) {
 void LiveScreen::showEvent(QShowEvent *event) {
 	QPalette palette;
 	QRect sGeometry = QApplication::desktop()->screenGeometry(1);
-	QPixmap bgimage = QPixmap("background.jpg").scaled(sGeometry.size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+	QPixmap bgimage = QPixmap("media/images/background.jpg").scaled(sGeometry.size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
 	bgimage.scroll((sGeometry.width()-bgimage.width())/2, (sGeometry.height()-bgimage.height())/2, bgimage.rect());
 	palette.setBrush(QPalette::Background,bgimage);
 	setPalette(palette);

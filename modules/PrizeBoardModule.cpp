@@ -47,9 +47,9 @@ PrizeBoardControl::PrizeBoardControl() {
 PrizeBoardLive::PrizeBoardLive() {
 	QGridLayout *layout = new QGridLayout(this);
 	QHBoxLayout *lastRow = new QHBoxLayout();
-	prizeBronze = new QPixmap("PrizeBronze.png");
-	prizeSilver = new QPixmap("PrizeSilver.png");
-	prizeGold = new QPixmap("PrizeGold.png");
+	prizeBronze = new QPixmap("media/images/PrizeBronze.png");
+	prizeSilver = new QPixmap("media/images/PrizeSilver.png");
+	prizeGold = new QPixmap("media/images/PrizeGold.png");
 	
 	int noButtons = 25;
 	int cols = qCeil(qSqrt(noButtons)); // The closest square root value (works out best fit for the items)
@@ -99,15 +99,15 @@ void PrizeBoardLive::chooseNumber(int number) {
 	
 	switch(prizes[number]) {
 		case 'B':
-			if (isVisible()) QSound::play("PrizeBronze.wav");
+			if (isVisible()) QSound::play("media/sounds/PrizeBronze.wav");
 			prizeImage = prizeBronze;
 			break;
 		case 'S':
-			if (isVisible()) QSound::play("PrizeSilver.wav");
+			if (isVisible()) QSound::play("media/sounds/PrizeSilver.wav");
 			prizeImage = prizeSilver;
 			break;
 		case 'G':
-			if (isVisible()) QSound::play("PrizeGold.wav");
+			if (isVisible()) QSound::play("media/sounds/PrizeGold.wav");
 			prizeImage = prizeGold;
 			break;
 	}
