@@ -8,13 +8,16 @@ ScoresModule::ScoresModule() {
 	setLiveWidget(new ScoresLive);
 	BaseControl *control = getControlWidget();
 	BaseLive *live = getLiveWidget();
-	connect(control, SIGNAL(showBoysScore(bool)), live, SIGNAL(showBoysScore(bool)));
 	connect(control, SIGNAL(updateGirlsScore(int)), live, SLOT(updateGirlsScore(int)));
 	connect(control, SIGNAL(updateBoysScore(int)), live, SLOT(updateBoysScore(int)));
 	connect(control, SIGNAL(showGirlsScore(bool)), live, SIGNAL(showGirlsScore(bool)));
+	connect(control, SIGNAL(showBoysScore(bool)), live, SIGNAL(showBoysScore(bool)));
 }
 
 ScoresControl::ScoresControl() {
+	boysScore = 0;
+	girlsScore = 0;
+	
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	
 	QPushButton *switchBtn = new QPushButton("<- Switch ->");
@@ -25,54 +28,73 @@ ScoresControl::ScoresControl() {
 	QFont titleFont = QFont("Arial", 16, QFont::Bold);
 	
 	QVBoxLayout *boysLayout = new QVBoxLayout();
+	
+	// Boys
 	QLabel *bTitleLabel = new QLabel("Boys");
 	bTitleLabel->setFont(titleFont);
 	bTitleLabel->setAlignment(Qt::AlignCenter);
 	boysLayout->addWidget(bTitleLabel);
+	
 	QPushButton *bDispBtn = new QPushButton("Display Scores");
 	bDispBtn->setCheckable(true);
 	boysLayout->addWidget(bDispBtn);
+	
 	boysLayout->addWidget(new QLabel("Amount to add:"));
-	QLineEdit *bScoreAddTxt = new QLineEdit();
+	bScoreAddTxt = new QLineEdit();
 	bScoreAddTxt->setValidator(new QIntValidator(this));
-	bScoreAddTxt->setText("0");
 	bScoreAddTxt->setAlignment(Qt::AlignCenter);
+	connect(bScoreAddTxt, SLOT(returnPressed()), this, SLOT(boysAddScore()));
 	boysLayout->addWidget(bScoreAddTxt);
+	
 	QPushButton *bAddBtn = new QPushButton("Add to score");
+	connect(bAddBtn, SIGNAL(clicked()), this, SLOT(boysAddScore()));
 	boysLayout->addWidget(bAddBtn);
+	
 	boysLayout->addWidget(new QLabel("Current Score:"));
-	QLineEdit *bScoreTxt = new QLineEdit();
+	bScoreTxt = new QLineEdit();
 	bScoreTxt->setValidator(new QIntValidator(this));
 	bScoreTxt->setText("0");
 	bScoreTxt->setAlignment(Qt::AlignCenter);
 	boysLayout->addWidget(bScoreTxt);
+	
 	QPushButton *bUpdateScoreTxt = new QPushButton("Update Score");
+	
 	boysLayout->addWidget(bUpdateScoreTxt);
 	
+	// Girls
 	QVBoxLayout *girlsLayout = new QVBoxLayout();
+	
 	QLabel *gTitleLabel = new QLabel("Girls");
 	gTitleLabel->setFont(titleFont);
 	gTitleLabel->setAlignment(Qt::AlignCenter);
 	girlsLayout->addWidget(gTitleLabel);
+	
 	QPushButton *gDispBtn = new QPushButton("Display Scores");
 	gDispBtn->setCheckable(true);
 	girlsLayout->addWidget(gDispBtn);
+	
 	girlsLayout->addWidget(new QLabel("Amount to add:"));
-	QLineEdit *gScoreAddTxt = new QLineEdit();
+	gScoreAddTxt = new QLineEdit();
 	gScoreAddTxt->setValidator(new QIntValidator(this));
-	gScoreAddTxt->setText("0");
 	gScoreAddTxt->setAlignment(Qt::AlignCenter);
+	connect(gScoreAddTxt, SLOT(returnPressed()), this, SLOT(girlsAddScore()));
 	girlsLayout->addWidget(gScoreAddTxt);
+	
 	QPushButton *gAddBtn = new QPushButton("Add to score");
+	connect(gAddBtn, SIGNAL(clicked()), this, SLOT(girlsAddScore()));
 	girlsLayout->addWidget(gAddBtn);
+	
 	girlsLayout->addWidget(new QLabel("Current Score:"));
-	QLineEdit *gScoreTxt = new QLineEdit();
+	gScoreTxt = new QLineEdit();
 	gScoreTxt->setValidator(new QIntValidator(this));
 	gScoreTxt->setText("0");
 	gScoreTxt->setAlignment(Qt::AlignCenter);
 	girlsLayout->addWidget(gScoreTxt);
+	
 	QPushButton *gUpdateScoreTxt = new QPushButton("Update Score");
+	
 	girlsLayout->addWidget(gUpdateScoreTxt);
+	
 	
 	controlLayout->addLayout(boysLayout);
 	controlLayout->addLayout(girlsLayout);
@@ -84,12 +106,33 @@ ScoresControl::ScoresControl() {
 	connect(bDispBtn, SIGNAL(clicked(bool)), this, SIGNAL(showBoysScore(bool)));
 }
 
+void ScoresControl::boysAddScore() {
+	boysScore += bScoreAddTxt->text().toInt();
+	bScoreTxt->setText(QString::number(boysScore));
+	bScoreAddTxt->setText("");
+	emit updateBoysScore(boysScore);
+}
+
+void ScoresControl::girlsAddScore() {
+	girlsScore += gScoreAddTxt->text().toInt();
+	gScoreTxt->setText(QString::number(girlsScore));
+	gScoreAddTxt->setText("");
+	emit updateGirlsScore(girlsScore);
+}
+
+void ScoresControl::boysUpdateScore() {
+
+}
+
+void ScoresControl::girlsUpdateScore() {
+
+}
+
 ScoresLive::ScoresLive() {
 	QHBoxLayout *layout = new QHBoxLayout(this);
 	
 	QVBoxLayout *bLayout = new QVBoxLayout();
 	QLabel *bTitle = new QLabel();
-	bTitle->setVisible(false);
 	bTitle->setAlignment(Qt::AlignCenter);
 	bTitle->setPixmap(outlineText("Boys"));
 	bLayout->addWidget(bTitle);
@@ -102,7 +145,6 @@ ScoresLive::ScoresLive() {
 	
 	QVBoxLayout *gLayout = new QVBoxLayout();
 	QLabel *gTitle = new QLabel();
-	gTitle->setVisible(false);
 	gTitle->setAlignment(Qt::AlignCenter);
 	gTitle->setPixmap(outlineText("Girls"));
 	gLayout->addWidget(gTitle);
@@ -114,9 +156,7 @@ ScoresLive::ScoresLive() {
 	layout->addLayout(gLayout);
 	setLayout(layout);
 	
-	connect(this, SIGNAL(showBoysScore(bool)), bTitle, SLOT(setVisible(bool)));
 	connect(this, SIGNAL(showBoysScore(bool)), bScore, SLOT(setVisible(bool)));
-	connect(this, SIGNAL(showGirlsScore(bool)), gTitle, SLOT(setVisible(bool)));
 	connect(this, SIGNAL(showGirlsScore(bool)), gScore, SLOT(setVisible(bool)));
 }
 
@@ -132,7 +172,7 @@ void ScoresLive::updateBoysScore(int score) {
  * Slot to update the girls score
  */
 void ScoresLive::updateGirlsScore(int score) {
-	bScore->setPixmap(outlineText(QString::number(score)));
+	gScore->setPixmap(outlineText(QString::number(score)));
 }
 
 QPixmap ScoresLive::outlineText(QString text) {
