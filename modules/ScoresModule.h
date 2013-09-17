@@ -26,4 +26,14 @@ class ScoresLive : public BaseLive {
 	
 	private:
 		QPixmap outlineText(QString text);
+		QVBoxLayout *bLayout;
+		QVBoxLayout *gLayout;
+		QLabel *bScore;
+		QLabel *gScore;
+	
+	public slots:
+		void updateBoysScore(int score);
+		void updateGirlsScore(int score);
+		void showBoysScore(bool show);
+		void showGirlsScore(bool show);
 };

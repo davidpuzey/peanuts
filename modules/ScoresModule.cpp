@@ -78,25 +78,78 @@ ScoresControl::ScoresControl() {
 }
 
 ScoresLive::ScoresLive() {
+	QHBoxLayout *layout = new QHBoxLayout(this);
 	
+	bLayout = new QVBoxLayout();
+	QLabel *bTitle = new QLabel();
+	bTitle->setAlignment(Qt::AlignCenter);
+	bTitle->setPixmap(outlineText("Boys"));
+	bLayout->addWidget(bTitle);
+	bScore = new QLabel();
+	bScore->setAlignment(Qt::AlignCenter);
+	bScore->setPixmap(outlineText("0"));
+	bLayout->addWidget(bScore);
+	layout->addLayout(bLayout);
+	
+	gLayout = new QVBoxLayout();
+	QLabel *gTitle = new QLabel();
+	gTitle->setAlignment(Qt::AlignCenter);
+	gTitle->setPixmap(outlineText("Girls"));
+	gLayout->addWidget(gTitle);
+	gScore = new QLabel();
+	gScore->setAlignment(Qt::AlignCenter);
+	gScore->setPixmap(outlineText("0"));
+	gLayout->addWidget(gScore);
+	layout->addLayout(gLayout);
+	
+	setLayout(layout);
+}
+
+
+/**
+ * Slot to update the boys score
+ */
+void ScoresLive::updateBoysScore(int score) {
+	bScore->setPixmap(outlineText(QString::number(score)));
+}
+
+/**
+ * Slot to update the girls score
+ */
+void ScoresLive::updateGirlsScore(int score) {
+	bScore->setPixmap(outlineText(QString::number(score)));
+}
+
+/** 
+ * Slot to show and hide the boys score
+ */
+void ScoresLive::showBoysScore(bool show) {
+}
+
+/**
+ * Slot to show and hide the girls score
+ */
+void ScoresLive::showGirlsScore(bool show) {
 }
 
 QPixmap ScoresLive::outlineText(QString text) {
-	QPixmap *canvas = new QPixmap(200,200);
+	QPixmap *canvas = new QPixmap(1000,1000);
 	canvas->fill(Qt::transparent);
 	
 	QFont font;
-	font.setPointSize(60);
+	font.setPointSize(150);
 	font.setBold(true);
+	
+	QFontMetrics fontMetrics(font); // So we can determine the position of the text. We use the ascent function, this gives the distance between the baseline of the text and highest point.
 	
 	QPen pen; // Give a nice black outline
 	pen.setWidth(5);
 	
 	QPainterPath path; // Have to use path to get an outline
-	path.addText(0,90, font, text);
+	path.addText(0,fontMetrics.ascent(), font, text); // TODO Find out why I have to minus 10 from the ascent, I'm sure it's very simple, but a task for another day I think.
 	
 	QPainter painter(canvas); // Make the outlines text
-	painter.setBrush(QBrush(Qt::red));
+	painter.setBrush(QBrush(Qt::green));
 	painter.setPen(pen);
 	painter.setRenderHint(QPainter::Antialiasing);
 	painter.drawPath(path);
