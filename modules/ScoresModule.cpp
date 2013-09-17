@@ -23,6 +23,15 @@ ScoresControl::ScoresControl() {
 	QPushButton *switchBtn = new QPushButton("<- Switch ->");
 	layout->addWidget(switchBtn);
 	
+	QHBoxLayout *controls = new QHBoxLayout();
+	QPushButton *showAll = new QPushButton("Show All");
+	connect(showAll, SIGNAL(clicked(bool)), this, SLOT(showAllSlot()));
+	controls->addWidget(showAll);
+	QPushButton *hideAll = new QPushButton("Hide All");
+	connect(hideAll, SIGNAL(clicked(bool)), this, SLOT(hideAllSlot()));
+	controls->addWidget(hideAll);
+	layout->addLayout(controls);
+	
 	QHBoxLayout *controlLayout = new QHBoxLayout();
 	
 	QFont titleFont = QFont("Arial", 16, QFont::Bold);
@@ -35,8 +44,9 @@ ScoresControl::ScoresControl() {
 	bTitleLabel->setAlignment(Qt::AlignCenter);
 	boysLayout->addWidget(bTitleLabel);
 	
-	QPushButton *bDispBtn = new QPushButton("Display Scores");
+	bDispBtn = new QPushButton("Display Scores");
 	bDispBtn->setCheckable(true);
+	connect(bDispBtn, SIGNAL(toggled(bool)), this, SIGNAL(showBoysScore(bool)));
 	boysLayout->addWidget(bDispBtn);
 	
 	boysLayout->addWidget(new QLabel("Amount to add:"));
@@ -71,8 +81,9 @@ ScoresControl::ScoresControl() {
 	gTitleLabel->setAlignment(Qt::AlignCenter);
 	girlsLayout->addWidget(gTitleLabel);
 	
-	QPushButton *gDispBtn = new QPushButton("Display Scores");
+	gDispBtn = new QPushButton("Display Scores");
 	gDispBtn->setCheckable(true);
+	connect(gDispBtn, SIGNAL(toggled(bool)), this, SIGNAL(showGirlsScore(bool)));
 	girlsLayout->addWidget(gDispBtn);
 	
 	girlsLayout->addWidget(new QLabel("Amount to add:"));
@@ -105,9 +116,16 @@ ScoresControl::ScoresControl() {
 	layout->addLayout(controlLayout);
 	
 	setLayout(layout);
-	
-	connect(gDispBtn, SIGNAL(clicked(bool)), this, SIGNAL(showGirlsScore(bool)));
-	connect(bDispBtn, SIGNAL(clicked(bool)), this, SIGNAL(showBoysScore(bool)));
+}
+
+void ScoresControl::showAllSlot() {
+	bDispBtn->setChecked(true);
+	gDispBtn->setChecked(true);
+}
+
+void ScoresControl::hideAllSlot() {
+	bDispBtn->setChecked(false);
+	gDispBtn->setChecked(false);
 }
 
 void ScoresControl::boysAddScore() {

@@ -19,12 +19,16 @@ class ScoresControl : public BaseControl {
 	private:
 		int boysScore;
 		int girlsScore;
+		QPushButton *bDispBtn;
+		QPushButton *gDispBtn;
 		QLineEdit *bScoreAddTxt;
 		QLineEdit *bScoreTxt;
 		QLineEdit *gScoreAddTxt;
 		QLineEdit *gScoreTxt;
 	
 	private slots:
+		void showAllSlot();
+		void hideAllSlot();
 		void boysAddScore();
 		void girlsAddScore();
 		void boysUpdateScore();
