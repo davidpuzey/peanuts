@@ -43,7 +43,7 @@ ScoresControl::ScoresControl() {
 	bScoreAddTxt = new QLineEdit();
 	bScoreAddTxt->setValidator(new QIntValidator(this));
 	bScoreAddTxt->setAlignment(Qt::AlignCenter);
-	connect(bScoreAddTxt, SLOT(returnPressed()), this, SLOT(boysAddScore()));
+	connect(bScoreAddTxt, SIGNAL(returnPressed()), this, SLOT(boysAddScore()));
 	boysLayout->addWidget(bScoreAddTxt);
 	
 	QPushButton *bAddBtn = new QPushButton("Add to score");
@@ -55,9 +55,11 @@ ScoresControl::ScoresControl() {
 	bScoreTxt->setValidator(new QIntValidator(this));
 	bScoreTxt->setText("0");
 	bScoreTxt->setAlignment(Qt::AlignCenter);
+	connect(bScoreTxt, SIGNAL(returnPressed()), this, SLOT(boysUpdateScore()));
 	boysLayout->addWidget(bScoreTxt);
 	
 	QPushButton *bUpdateScoreTxt = new QPushButton("Update Score");
+	connect(bUpdateScoreTxt, SIGNAL(clicked()), this, SLOT(boysUpdateScore()));
 	
 	boysLayout->addWidget(bUpdateScoreTxt);
 	
@@ -77,7 +79,7 @@ ScoresControl::ScoresControl() {
 	gScoreAddTxt = new QLineEdit();
 	gScoreAddTxt->setValidator(new QIntValidator(this));
 	gScoreAddTxt->setAlignment(Qt::AlignCenter);
-	connect(gScoreAddTxt, SLOT(returnPressed()), this, SLOT(girlsAddScore()));
+	connect(gScoreAddTxt, SIGNAL(returnPressed()), this, SLOT(girlsAddScore()));
 	girlsLayout->addWidget(gScoreAddTxt);
 	
 	QPushButton *gAddBtn = new QPushButton("Add to score");
@@ -89,9 +91,11 @@ ScoresControl::ScoresControl() {
 	gScoreTxt->setValidator(new QIntValidator(this));
 	gScoreTxt->setText("0");
 	gScoreTxt->setAlignment(Qt::AlignCenter);
+	connect(gScoreTxt, SIGNAL(returnPressed()), this, SLOT(girlsUpdateScore()));
 	girlsLayout->addWidget(gScoreTxt);
 	
 	QPushButton *gUpdateScoreTxt = new QPushButton("Update Score");
+	connect(gUpdateScoreTxt, SIGNAL(clicked()), this, SLOT(girlsUpdateScore()));
 	
 	girlsLayout->addWidget(gUpdateScoreTxt);
 	
@@ -121,11 +125,13 @@ void ScoresControl::girlsAddScore() {
 }
 
 void ScoresControl::boysUpdateScore() {
-
+	boysScore = bScoreTxt->text().toInt();
+	emit updateBoysScore(boysScore);
 }
 
 void ScoresControl::girlsUpdateScore() {
-
+	girlsScore = gScoreTxt->text().toInt();
+	emit updateGirlsScore(girlsScore);
 }
 
 ScoresLive::ScoresLive() {
@@ -186,7 +192,7 @@ QPixmap ScoresLive::outlineText(QString text) {
 	QFontMetrics fontMetrics(font); // So we can determine the position of the text. We use the ascent function, this gives the distance between the baseline of the text and highest point.
 	
 	QPen pen; // Give a nice black outline
-	pen.setWidth(5);
+	pen.setWidth(10);
 	
 	QPainterPath path; // Have to use path to get an outline
 	path.addText(0,fontMetrics.ascent(), font, text); // TODO Find out why I have to minus 10 from the ascent, I'm sure it's very simple, but a task for another day I think.
