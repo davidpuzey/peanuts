@@ -8,6 +8,10 @@ ScoresModule::ScoresModule() {
 	setLiveWidget(new ScoresLive);
 	BaseControl *control = getControlWidget();
 	BaseLive *live = getLiveWidget();
+	connect(control, SIGNAL(showBoysScore(bool)), live, SIGNAL(showBoysScore(bool)));
+	connect(control, SIGNAL(updateGirlsScore(int)), live, SLOT(updateGirlsScore(int)));
+	connect(control, SIGNAL(updateBoysScore(int)), live, SLOT(updateBoysScore(int)));
+	connect(control, SIGNAL(showGirlsScore(bool)), live, SIGNAL(showGirlsScore(bool)));
 }
 
 ScoresControl::ScoresControl() {
@@ -75,34 +79,45 @@ ScoresControl::ScoresControl() {
 	layout->addLayout(controlLayout);
 	
 	setLayout(layout);
+	
+	connect(gDispBtn, SIGNAL(clicked(bool)), this, SIGNAL(showGirlsScore(bool)));
+	connect(bDispBtn, SIGNAL(clicked(bool)), this, SIGNAL(showBoysScore(bool)));
 }
 
 ScoresLive::ScoresLive() {
 	QHBoxLayout *layout = new QHBoxLayout(this);
 	
-	bLayout = new QVBoxLayout();
+	QVBoxLayout *bLayout = new QVBoxLayout();
 	QLabel *bTitle = new QLabel();
+	bTitle->setVisible(false);
 	bTitle->setAlignment(Qt::AlignCenter);
 	bTitle->setPixmap(outlineText("Boys"));
 	bLayout->addWidget(bTitle);
 	bScore = new QLabel();
+	bScore->setVisible(false);
 	bScore->setAlignment(Qt::AlignCenter);
 	bScore->setPixmap(outlineText("0"));
 	bLayout->addWidget(bScore);
 	layout->addLayout(bLayout);
 	
-	gLayout = new QVBoxLayout();
+	QVBoxLayout *gLayout = new QVBoxLayout();
 	QLabel *gTitle = new QLabel();
+	gTitle->setVisible(false);
 	gTitle->setAlignment(Qt::AlignCenter);
 	gTitle->setPixmap(outlineText("Girls"));
 	gLayout->addWidget(gTitle);
 	gScore = new QLabel();
+	gScore->setVisible(false);
 	gScore->setAlignment(Qt::AlignCenter);
 	gScore->setPixmap(outlineText("0"));
 	gLayout->addWidget(gScore);
 	layout->addLayout(gLayout);
-	
 	setLayout(layout);
+	
+	connect(this, SIGNAL(showBoysScore(bool)), bTitle, SLOT(setVisible(bool)));
+	connect(this, SIGNAL(showBoysScore(bool)), bScore, SLOT(setVisible(bool)));
+	connect(this, SIGNAL(showGirlsScore(bool)), gTitle, SLOT(setVisible(bool)));
+	connect(this, SIGNAL(showGirlsScore(bool)), gScore, SLOT(setVisible(bool)));
 }
 
 
@@ -118,18 +133,6 @@ void ScoresLive::updateBoysScore(int score) {
  */
 void ScoresLive::updateGirlsScore(int score) {
 	bScore->setPixmap(outlineText(QString::number(score)));
-}
-
-/** 
- * Slot to show and hide the boys score
- */
-void ScoresLive::showBoysScore(bool show) {
-}
-
-/**
- * Slot to show and hide the girls score
- */
-void ScoresLive::showGirlsScore(bool show) {
 }
 
 QPixmap ScoresLive::outlineText(QString text) {

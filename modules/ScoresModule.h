@@ -15,6 +15,12 @@ class ScoresControl : public BaseControl {
 	
 	public:
 		ScoresControl();
+	
+	signals:
+		void updateGirlsScore(int);
+		void updateBoysScore(int);
+		void showGirlsScore(bool);
+		void showBoysScore(bool);
 };
 
 class ScoresLive : public BaseLive {
@@ -26,14 +32,14 @@ class ScoresLive : public BaseLive {
 	
 	private:
 		QPixmap outlineText(QString text);
-		QVBoxLayout *bLayout;
-		QVBoxLayout *gLayout;
 		QLabel *bScore;
 		QLabel *gScore;
+	
+	signals:
+		void showBoysScore(bool);
+		void showGirlsScore(bool);
 	
 	public slots:
 		void updateBoysScore(int score);
 		void updateGirlsScore(int score);
-		void showBoysScore(bool show);
-		void showGirlsScore(bool show);
 };
