@@ -19,7 +19,9 @@ ScoresControl::ScoresControl() {
 	QHBoxLayout *controlLayout = new QHBoxLayout();
 	
 	QVBoxLayout *boysLayout = new QVBoxLayout();
-	boysLayout->addWidget(new QLabel("Boys"));
+	QLabel *bTitleLabel = new QLabel("Boys");
+	bTitleLabel->setAlignment(Qt::AlignCenter);
+	boysLayout->addWidget(bTitleLabel);
 	QPushButton *bDispBtn = new QPushButton("Display Scores");
 	boysLayout->addWidget(bDispBtn);
 	boysLayout->addWidget(new QLabel("Amount to add:"));
@@ -36,7 +38,9 @@ ScoresControl::ScoresControl() {
 	boysLayout->addWidget(bUpdateScoreTxt);
 	
 	QVBoxLayout *girlsLayout = new QVBoxLayout();
-	girlsLayout->addWidget(new QLabel("Girls"));
+	QLabel *gTitleLabel = new QLabel("Girls");
+	gTitleLabel->setAlignment(Qt::AlignCenter);
+	girlsLayout->addWidget(gTitleLabel);
 	QPushButton *gDispBtn = new QPushButton("Display Scores");
 	girlsLayout->addWidget(gDispBtn);
 	girlsLayout->addWidget(new QLabel("Amount to add:"));
