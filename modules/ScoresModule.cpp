@@ -18,7 +18,7 @@ ScoresControl::ScoresControl() {
 	
 	QHBoxLayout *controlLayout = new QHBoxLayout();
 	
-	QFont titleFont = QFont("Arial", 26, QFont::Bold);
+	QFont titleFont = QFont("Arial", 16, QFont::Bold);
 	
 	QVBoxLayout *boysLayout = new QVBoxLayout();
 	QLabel *bTitleLabel = new QLabel("Boys");
@@ -30,12 +30,14 @@ ScoresControl::ScoresControl() {
 	boysLayout->addWidget(new QLabel("Amount to add:"));
 	QLineEdit *bScoreAddTxt = new QLineEdit();
 	bScoreAddTxt->setValidator(new QIntValidator(this));
+	bScoreAddTxt->setAlignment(Qt::AlignCenter);
 	boysLayout->addWidget(bScoreAddTxt);
 	QPushButton *bAddBtn = new QPushButton("Add to score");
 	boysLayout->addWidget(bAddBtn);
 	boysLayout->addWidget(new QLabel("Current Score:"));
 	QLineEdit *bScoreTxt = new QLineEdit();
 	bScoreTxt->setValidator(new QIntValidator(this));
+	bScoreTxt->setAlignment(Qt::AlignCenter);
 	boysLayout->addWidget(bScoreTxt);
 	QPushButton *bUpdateScoreTxt = new QPushButton("Update Score");
 	boysLayout->addWidget(bUpdateScoreTxt);
@@ -50,12 +52,14 @@ ScoresControl::ScoresControl() {
 	girlsLayout->addWidget(new QLabel("Amount to add:"));
 	QLineEdit *gScoreAddTxt = new QLineEdit();
 	gScoreAddTxt->setValidator(new QIntValidator(this));
+	gScoreAddTxt->setAlignment(Qt::AlignCenter);
 	girlsLayout->addWidget(gScoreAddTxt);
 	QPushButton *gAddBtn = new QPushButton("Add to score");
 	girlsLayout->addWidget(gAddBtn);
 	girlsLayout->addWidget(new QLabel("Current Score:"));
 	QLineEdit *gScoreTxt = new QLineEdit();
 	gScoreTxt->setValidator(new QIntValidator(this));
+	gScoreTxt->setAlignment(Qt::AlignCenter);
 	girlsLayout->addWidget(gScoreTxt);
 	QPushButton *gUpdateScoreTxt = new QPushButton("Update Score");
 	girlsLayout->addWidget(gUpdateScoreTxt);
