@@ -8,11 +8,11 @@ BalloonsModule::BalloonsModule() {
 	setLiveWidget(new BalloonsLive);
 	BaseControl *control = getControlWidget();
 	BaseLive *live = getLiveWidget();
-	connect(control, SIGNAL(numberClicked(int)), live, SLOT(chooseNumber(int)));
+	//connect(control, SIGNAL(numberClicked(int)), live, SLOT(chooseNumber(int)));
 }
 
 BalloonsControl::BalloonsControl() {
-	QGridLayout *layout = new QGridLayout(this);
+	/*QGridLayout *layout = new QGridLayout(this);
 	QHBoxLayout *lastRow = new QHBoxLayout();
 	
 	int noButtons = 25;
@@ -41,11 +41,11 @@ BalloonsControl::BalloonsControl() {
 	
 	connect(signalMapper, SIGNAL(mapped(int)), this, SIGNAL(numberClicked(int)));
 	
-	setLayout(layout);
+	setLayout(layout);*/
 }
 
 BalloonsLive::BalloonsLive() {
-	QGridLayout *layout = new QGridLayout(this);
+	/*QGridLayout *layout = new QGridLayout(this);
 	QHBoxLayout *lastRow = new QHBoxLayout();
 	prizeBronze = new QPixmap("media/images/PrizeBronze.png");
 	prizeSilver = new QPixmap("media/images/PrizeSilver.png");
@@ -54,10 +54,10 @@ BalloonsLive::BalloonsLive() {
 	int noButtons = 25;
 	int cols = qCeil(qSqrt(noButtons)); // The closest square root value (works out best fit for the items)
 	int cellSwitch = noButtons - (noButtons % cols); // The cell at which the last row starts
-	
+	*/
 	
 	/* Assign and randomise prizes */
-	int i = 0; // Keep track of the current array item
+	/*int i = 0; // Keep track of the current array item
 	int x = qCeil((noButtons*0.3)+0.5); // The point at which the prizes switch from silver to bronze, I'm thinking maybe about 30% of the total number are silver prizes
 	prizes = new char[noButtons];
 	
@@ -90,6 +90,6 @@ BalloonsLive::BalloonsLive() {
 	if (cellSwitch != 0)
 		layout->addLayout(lastRow, layout->rowCount(), 0, 1, cols); // Add the last row in seperately, this allows us to centre the buttons is there are less than the number of columns
 	
-	setLayout(layout);
+	setLayout(layout);*/
 }
 
