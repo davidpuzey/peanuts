@@ -3,6 +3,8 @@
 #include "modules/PrizeBoardModule.h"
 #include "modules/ThemeCutModule.h"
 #include "modules/NumberChoiceModule.h"
+#include "modules/BalloonsModule.h"
+#include "modules/ScoresModule.h"
 
 MainWindow::MainWindow() {
 	setWindowTitle(tr("Peanuts"));
@@ -30,7 +32,9 @@ MainWindow::MainWindow() {
 	QHBoxLayout *mainArea = new QHBoxLayout();
 	tehTabs = new QTabWidget();
 	mainArea->addWidget(tehTabs);
+	addModule(new ScoresModule);
 	addModule(new PrizeBoardModule);
+	addModule(new BalloonsModule);
 	addModule(new NumberChoiceModule);
 	addModule(new ThemeCutModule);
 	
