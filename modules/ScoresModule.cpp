@@ -18,8 +18,11 @@ ScoresControl::ScoresControl() {
 	
 	QHBoxLayout *controlLayout = new QHBoxLayout();
 	
+	QFont titleFont = QFont("Arial", 26, QFont::Bold);
+	
 	QVBoxLayout *boysLayout = new QVBoxLayout();
 	QLabel *bTitleLabel = new QLabel("Boys");
+	bTitleLabel->setFont(titleFont);
 	bTitleLabel->setAlignment(Qt::AlignCenter);
 	boysLayout->addWidget(bTitleLabel);
 	QPushButton *bDispBtn = new QPushButton("Display Scores");
@@ -39,6 +42,7 @@ ScoresControl::ScoresControl() {
 	
 	QVBoxLayout *girlsLayout = new QVBoxLayout();
 	QLabel *gTitleLabel = new QLabel("Girls");
+	gTitleLabel->setFont(titleFont);
 	gTitleLabel->setAlignment(Qt::AlignCenter);
 	girlsLayout->addWidget(gTitleLabel);
 	QPushButton *gDispBtn = new QPushButton("Display Scores");
