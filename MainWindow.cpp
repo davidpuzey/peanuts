@@ -5,6 +5,7 @@
 #include "modules/NumberChoiceModule.h"
 #include "modules/BalloonsModule.h"
 #include "modules/ScoresModule.h"
+#include "modules/QuestionsModule.h"
 
 MainWindow::MainWindow() {
 	setWindowTitle(tr("Peanuts"));
@@ -37,6 +38,7 @@ MainWindow::MainWindow() {
 	addModule(new BalloonsModule);
 	addModule(new NumberChoiceModule);
 	addModule(new ThemeCutModule);
+	addModule(new QuestionsModule);
 	
 	liveSelectButtons->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
 	layout->addLayout(toolBar);
@@ -110,4 +112,4 @@ void MainWindow::addModule(BaseModule *module) {
 	
 	//Add a tab to switch to the controls
 	tehTabs->addTab(module->getControlWidget(), module->getTitle());
-}
+}                               
