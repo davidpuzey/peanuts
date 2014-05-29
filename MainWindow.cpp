@@ -6,6 +6,7 @@
 #include "modules/BalloonsModule.h"
 #include "modules/ScoresModule.h"
 #include "modules/QuestionsModule.h"
+#include "modules/SongsModule.h"
 
 MainWindow::MainWindow() {
 	setWindowTitle(tr("Peanuts"));
@@ -35,6 +36,7 @@ MainWindow::MainWindow() {
 	mainArea->addWidget(tehTabs);
 	addModule(new ScoresModule);
 	addModule(new PrizeBoardModule);
+	addModule(new SongsModule);
 	addModule(new BalloonsModule);
 	addModule(new NumberChoiceModule);
 	addModule(new ThemeCutModule);
