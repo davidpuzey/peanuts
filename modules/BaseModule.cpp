@@ -47,3 +47,12 @@ void BaseLive::showEvent(QShowEvent *widget) {
 
 void BaseLive::hideEvent(QHideEvent *widget) {
 }
+
+/******* BASE SETTINGS *******/
+BaseSettings::BaseSettings() {
+    // TODO Get the settings based on the current title .. refresh when 'setSettingsWidget' is called
+}
+
+QString BaseSettings::get(QString var) {
+    return var;
+}

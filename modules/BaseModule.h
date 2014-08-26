@@ -42,4 +42,12 @@ class BaseModule : public QWidget {
 		void setTitle(QString newTitle);
 };
 
+class BaseSettings : public QWidget {
+    Q_OBJECT
+
+    public:
+        BaseSettings();
+        QString get(QString var);
+};
+
 #endif
