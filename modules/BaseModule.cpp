@@ -17,7 +17,9 @@ void BaseModule::setLiveWidget(BaseLive *widget) {
 }
 
 void BaseModule::setSettingsWidget(BaseSettings *widget) {
-    settingsWidget = widget;
+    settings = widget;
+    controlWidget->setSettingsWidget(widget);
+    liveWidget->setSettingsWidget(widget);
 }
 
 BaseControl* BaseModule::getControlWidget() {
@@ -45,6 +47,10 @@ QString BaseModule::getTitle() {
 BaseControl::BaseControl() {
 }
 
+BaseControl::setSettingsWidget(BaseSettings *widget) {
+    settings = widget
+}
+
 
 /********* BASE LIVE *********/
 BaseLive::BaseLive() {
@@ -54,6 +60,10 @@ void BaseLive::showEvent(QShowEvent *widget) {
 }
 
 void BaseLive::hideEvent(QHideEvent *widget) {
+}
+
+BaseLive::setSettingsWidget(BaseSettings *widget) {
+    settings = widget
 }
 
 

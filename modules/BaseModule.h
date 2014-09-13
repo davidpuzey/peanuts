@@ -8,6 +8,12 @@ class BaseControl : public QWidget {
 
 	public:
 		BaseControl();
+
+    private:
+        BaseSettings *settings;
+
+    protected:
+        void setSettingsWidget(BaseSettings *widget);
 };
 
 class BaseLive : public QWidget {
@@ -17,9 +23,13 @@ class BaseLive : public QWidget {
 		BaseLive();
 
 	private:
+        BaseSettings *settings;
 		void pause();
 		void showEvent(QShowEvent *event);
 		void hideEvent(QHideEvent *event);
+
+    protected:
+        void setSettingsWidget(BaseSettings *widget);
 };
 
 class BaseModule : public QWidget {
@@ -35,6 +45,7 @@ class BaseModule : public QWidget {
 	private:
 		BaseControl *controlWidget;
 		BaseLive *liveWidget;
+        BaseSettings *settings;
 		QString title;
 
 	protected:
