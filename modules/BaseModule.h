@@ -5,17 +5,17 @@
 
 class BaseControl : public QWidget {
 	Q_OBJECT
-	
+
 	public:
 		BaseControl();
 };
 
 class BaseLive : public QWidget {
 	Q_OBJECT
-	
+
 	public:
 		BaseLive();
-	
+
 	private:
 		void pause();
 		void showEvent(QShowEvent *event);
@@ -24,21 +24,23 @@ class BaseLive : public QWidget {
 
 class BaseModule : public QWidget {
 	Q_OBJECT
-	
+
 	public:
 		BaseModule();
 		BaseControl* getControlWidget();
 		BaseLive* getLiveWidget();
+        BaseSettings* getSettingsWidget();
 		QString getTitle();
-	
+
 	private:
 		BaseControl *controlWidget;
 		BaseLive *liveWidget;
 		QString title;
-	
+
 	protected:
 		void setControlWidget(BaseControl *widget);
 		void setLiveWidget(BaseLive *widget);
+        void setSettingsWidget(BaseSettings *widget);
 		void setTitle(QString newTitle);
 };
 
