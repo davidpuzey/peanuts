@@ -20,6 +20,7 @@ void BaseModule::setSettingsWidget(BaseSettings *widget) {
     settings = widget;
     controlWidget->setSettingsWidget(widget);
     liveWidget->setSettingsWidget(widget);
+    widget->setGroup(title);
 }
 
 BaseControl* BaseModule::getControlWidget() {
@@ -68,10 +69,50 @@ BaseLive::setSettingsWidget(BaseSettings *widget) {
 
 
 /******* BASE SETTINGS *******/
-BaseSettings::BaseSettings() {
-    // TODO Get the settings based on the current title .. refresh when 'setSettingsWidget' is called
+struct setting {
+    QString name;
+    QString value;
 }
 
-QString BaseSettings::get(QString var) {
-    return var;
+struct module_settings {
+    QString name;
+    struct setting settings[];
+}
+
+
+BaseSettings::BaseSettings() {
+    filename = "settings";
+    group = "General";
+}
+
+static void BaseSettings::loadSettingsFile() {
+    if (settings_loaded)
+        return;
+
+    // TODO Investigate whether this will create difficulties with 'beginGroup' ???
+    settings = QSettings(filename, QSettings::IniFormat);
+    settings_loaded = true;
+}
+
+void BaseSettings::setGroup(QString groupName) {
+    group = groupName;
+}
+
+void BaseSettings::set(QString var, QString val) {
+    // TODO Investigate whether static QSetting will cause problems here
+    // ??? Maybe use settings.setValue(group + '/' + var, val) instead???
+    settings.beginGroup(group);
+    settings.setValue(var, val);
+    settings.endGroup();
+}
+
+QString BaseSettings::get(QString var, QVariant default = QVariant()) {
+    // TODO See comment in 'set()' method
+    QString val;
+
+    settings.beginGroup(group);
+    val = settings.value(var, default).toString();
+    settings.endGroup();
+
+    return val;
 }

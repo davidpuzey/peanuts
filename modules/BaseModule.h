@@ -60,7 +60,15 @@ class BaseSettings : public QWidget {
 
     public:
         BaseSettings();
+        void set(QString var, QString val);
         QString get(QString var);
+        void setGroup(QString groupName);
+
+    private:
+        QString group;
+        static QSettings settings;
+        static bool settings_loaded = false;
+        static void createSettings();
 };
 
 #endif
