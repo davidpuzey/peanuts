@@ -5,22 +5,23 @@
 BaseModule::BaseModule() {
 	controlWidget = new BaseControl;
 	liveWidget = new BaseLive;
+    settings = new BaseSettings;
 	setTitle("Base");
 }
 
 void BaseModule::setControlWidget(BaseControl *widget) {
 	controlWidget = widget;
+    controlWidget->setSettingsWidget(settings);
 }
 
 void BaseModule::setLiveWidget(BaseLive *widget) {
 	liveWidget = widget;
+    liveWidget->setSettingsWidget(settings);
 }
 
 void BaseModule::setSettingsWidget(BaseSettings *widget) {
     settings = widget;
-    controlWidget->setSettingsWidget(widget);
-    liveWidget->setSettingsWidget(widget);
-    widget->setGroup(title);
+    settings->setGroup(title);
 }
 
 BaseControl* BaseModule::getControlWidget() {
@@ -28,7 +29,7 @@ BaseControl* BaseModule::getControlWidget() {
 }
 
 BaseSettings* BaseModule::getSettingsWidget() {
-    return settingsWidget;
+    return settings;
 }
 
 BaseLive* BaseModule::getLiveWidget() {
@@ -48,8 +49,8 @@ QString BaseModule::getTitle() {
 BaseControl::BaseControl() {
 }
 
-BaseControl::setSettingsWidget(BaseSettings *widget) {
-    settings = widget
+void BaseControl::setSettingsWidget(BaseSettings *widget) {
+    settings = widget;
 }
 
 
@@ -63,8 +64,8 @@ void BaseLive::showEvent(QShowEvent *widget) {
 void BaseLive::hideEvent(QHideEvent *widget) {
 }
 
-BaseLive::setSettingsWidget(BaseSettings *widget) {
-    settings = widget
+void BaseLive::setSettingsWidget(BaseSettings *widget) {
+    settings = widget;
 }
 
 
@@ -72,27 +73,20 @@ BaseLive::setSettingsWidget(BaseSettings *widget) {
 struct setting {
     QString name;
     QString value;
-}
+};
 
 struct module_settings {
     QString name;
     struct setting settings[];
-}
+};
 
 
 BaseSettings::BaseSettings() {
-    filename = "settings";
     group = "General";
 }
 
-static void BaseSettings::loadSettingsFile() {
-    if (settings_loaded)
-        return;
-
-    // TODO Investigate whether this will create difficulties with 'beginGroup' ???
-    settings = QSettings(filename, QSettings::IniFormat);
-    settings_loaded = true;
-}
+QString BaseSettings::filename = "settings";
+QSettings *BaseSettings::settings = new QSettings(BaseSettings::filename, QSettings::IniFormat);
 
 void BaseSettings::setGroup(QString groupName) {
     group = groupName;
@@ -101,18 +95,18 @@ void BaseSettings::setGroup(QString groupName) {
 void BaseSettings::set(QString var, QString val) {
     // TODO Investigate whether static QSetting will cause problems here
     // ??? Maybe use settings.setValue(group + '/' + var, val) instead???
-    settings.beginGroup(group);
-    settings.setValue(var, val);
-    settings.endGroup();
+    settings->beginGroup(group);
+    settings->setValue(var, val);
+    settings->endGroup();
 }
 
-QString BaseSettings::get(QString var, QVariant default = QVariant()) {
+QString BaseSettings::get(QString var, QVariant def = QVariant()) {
     // TODO See comment in 'set()' method
     QString val;
 
-    settings.beginGroup(group);
-    val = settings.value(var, default).toString();
-    settings.endGroup();
+    settings->beginGroup(group);
+    val = settings->value(var, def).toString();
+    settings->endGroup();
 
     return val;
 }

@@ -3,17 +3,31 @@
 
 #include <QtGui>
 
+class BaseSettings : public QWidget {
+    Q_OBJECT
+
+    public:
+        BaseSettings();
+        void set(QString var, QString val);
+        QString get(QString var, QVariant def);
+        void setGroup(QString groupName);
+
+    private:
+        static QString filename;
+        QString group;
+        static QSettings *settings;
+        static void createSettings();
+};
+
 class BaseControl : public QWidget {
 	Q_OBJECT
 
 	public:
 		BaseControl();
+        void setSettingsWidget(BaseSettings *widget);
 
     private:
         BaseSettings *settings;
-
-    protected:
-        void setSettingsWidget(BaseSettings *widget);
 };
 
 class BaseLive : public QWidget {
@@ -21,15 +35,13 @@ class BaseLive : public QWidget {
 
 	public:
 		BaseLive();
+        void setSettingsWidget(BaseSettings *widget);
 
 	private:
         BaseSettings *settings;
 		void pause();
 		void showEvent(QShowEvent *event);
 		void hideEvent(QHideEvent *event);
-
-    protected:
-        void setSettingsWidget(BaseSettings *widget);
 };
 
 class BaseModule : public QWidget {
@@ -40,6 +52,7 @@ class BaseModule : public QWidget {
 		BaseControl* getControlWidget();
 		BaseLive* getLiveWidget();
         BaseSettings* getSettingsWidget();
+        void setSettingsWidget(BaseSettings *widget);
 		QString getTitle();
 
 	private:
@@ -51,24 +64,7 @@ class BaseModule : public QWidget {
 	protected:
 		void setControlWidget(BaseControl *widget);
 		void setLiveWidget(BaseLive *widget);
-        void setSettingsWidget(BaseSettings *widget);
 		void setTitle(QString newTitle);
-};
-
-class BaseSettings : public QWidget {
-    Q_OBJECT
-
-    public:
-        BaseSettings();
-        void set(QString var, QString val);
-        QString get(QString var);
-        void setGroup(QString groupName);
-
-    private:
-        QString group;
-        static QSettings settings;
-        static bool settings_loaded = false;
-        static void createSettings();
 };
 
 #endif
