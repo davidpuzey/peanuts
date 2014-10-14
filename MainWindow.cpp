@@ -12,8 +12,11 @@ MainWindow::MainWindow() {
 	setWindowTitle(tr("Peanuts"));
 	currentLiveState = false;
 	livescreen = new LiveScreen;
-	QShortcut *quitShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), livescreen);
-	
+	QShortcut *quitShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+
+    QPushButton *settingsButton = new QPushButton("Settings");
+    QFrame *divider = new QFrame();
+    divider->setFrameShape(QFrame::VLine);
 	clearButton = new QPushButton("Clear");
 	clearButton->setCheckable(true);
 	blackoutButton = new QPushButton("Blackout");
@@ -24,6 +27,8 @@ MainWindow::MainWindow() {
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	
 	QHBoxLayout *toolBar = new QHBoxLayout();
+    toolBar->addWidget(settingsButton);
+    toolBar->addWidget(divider);
 	toolBar->addWidget(clearButton);
 	toolBar->addWidget(blackoutButton);
 	toolBar->addWidget(goLiveButton);
