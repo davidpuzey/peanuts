@@ -4,11 +4,14 @@
 
 PrizeBoardModule::PrizeBoardModule() {
 	setTitle("Prize Board");
+    setSettingsWidget(new BaseSettings);
 	setControlWidget(new PrizeBoardControl);
 	setLiveWidget(new PrizeBoardLive);
 	BaseControl *control = getControlWidget();
 	BaseLive *live = getLiveWidget();
+    BaseSettings *settings = getSettingsWidget();
 	connect(control, SIGNAL(numberClicked(int)), live, SLOT(chooseNumber(int)));
+    settings->set("test", "blah");
 }
 
 PrizeBoardControl::PrizeBoardControl() {
@@ -110,6 +113,8 @@ void PrizeBoardLive::chooseNumber(int number) {
 			if (isVisible()) QSound::play("media/sounds/PrizeGold.wav");
 			prizeImage = prizeGold;
 			break;
+        default:
+            return; // TODO Some kind of error reporting perhaps?
 	}
 	QPixmap smallerPrize = prizeImage->scaled(numbers[number]->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	QLabel *medal = new QLabel(numbers[number]->parentWidget());
@@ -134,7 +139,7 @@ QPixmap PrizeBoardLive::outlineText(QString text) {
 	path.addText(0,90, font, text);
 	
 	QPainter painter(canvas); // Make the outlines text
-	painter.setBrush(QBrush(Qt::red));
+	painter.setBrush(QBrush(QColor(230, 0, 255)));
 	painter.setPen(pen);
 	painter.setRenderHint(QPainter::Antialiasing);
 	painter.drawPath(path);
