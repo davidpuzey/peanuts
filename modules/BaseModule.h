@@ -1,7 +1,7 @@
 #ifndef BASEMODULE
 #define BASEMODULE
 
-#include <QtGui>
+#include <QtWidgets>
 
 class BaseSettings : public QWidget {
     Q_OBJECT

@@ -1,5 +1,6 @@
 #include <ctime>
-#include <QtGui>
+#include <QtWidgets>
+#include <QSound>
 #include "PrizeBoardModule.h"
 
 PrizeBoardModule::PrizeBoardModule() {

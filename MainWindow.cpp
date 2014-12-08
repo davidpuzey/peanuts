@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QtWidgets>
 #include "MainWindow.h"
 #include "modules/PrizeBoardModule.h"
 #include "modules/ThemeCutModule.h"

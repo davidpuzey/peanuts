@@ -1,6 +1,6 @@
 #include <ctime>
-#include <QtGui>
-#include <QSerialPort/QSerialPortInfo>
+#include <QtWidgets>
+#include <QtSerialPort/QSerialPortInfo>
 #include "BuzzerModule.h"
 
 BuzzerModule::BuzzerModule() {
@@ -12,14 +12,27 @@ BuzzerModule::BuzzerModule() {
 }
 
 BuzzerControl::BuzzerControl() {
-	QHBoxLayout *layout = new QHBoxLayout();
-    QListWidget *serialPortList = new QComboBox(this);
+	QVBoxLayout *layout = new QVBoxLayout();
+	QHBoxLayout *confLayout = new QHBoxLayout();
+    serialPortList = new QComboBox(this);
+	QPushButton *start = new QPushButton("Connect");
+	QPushButton *refresh = new QPushButton("Refresh");
+	connect(refresh, SIGNAL(clicked()), this, SLOT(updateSerialPortList()));
 
+	updateSerialPortList();
+
+    confLayout->addWidget(serialPortList);
+	confLayout->addWidget(start);
+	confLayout->addWidget(refresh);
+	
+	layout->addLayout(confLayout);
+    setLayout(layout);
+}
+
+void BuzzerControl::updateSerialPortList() {
+	serialPortList->clear();
     foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
         serialPortList->addItem(info.portName());
-
-    layout->addWidget(serialPortList);
-    setLayout(layout);
 }
 
 BuzzerLive::BuzzerLive() {

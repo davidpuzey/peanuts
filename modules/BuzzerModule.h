@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QtWidgets>
 #include "BaseModule.h"
 
 typedef QLabel* QLabelArray;
@@ -17,8 +17,10 @@ class BuzzerControl : public BaseControl {
 		BuzzerControl();
 	
 	private:
+		QComboBox *serialPortList;
 	
 	private slots:
+		void updateSerialPortList();
 	
 	signals:
 };

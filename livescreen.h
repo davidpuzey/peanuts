@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QtWidgets>
 #include "modules/BaseModule.h"
 
 class LiveScreen : public QWidget {

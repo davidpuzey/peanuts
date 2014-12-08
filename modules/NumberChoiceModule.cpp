@@ -1,5 +1,6 @@
 #include <ctime>
-#include <QtGui>
+#include <QtWidgets>
+#include <QSound>
 #include "NumberChoiceModule.h"
 
 NumberChoiceModule::NumberChoiceModule() {

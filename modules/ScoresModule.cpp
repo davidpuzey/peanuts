@@ -1,5 +1,5 @@
 #include <ctime>
-#include <QtGui>
+#include <QtWidgets>
 #include "ScoresModule.h"
 
 ScoresModule::ScoresModule() {

@@ -1,5 +1,5 @@
 #include <ctime>
-#include <QtGui>
+#include <QtWidgets>
 #include "QuestionsModule.h"
 
 QuestionsModule::QuestionsModule() {

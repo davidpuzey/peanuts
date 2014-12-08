@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QtWidgets>
 //#include <Phonon/VideoPlayer>
 #include "BaseModule.h"
 
