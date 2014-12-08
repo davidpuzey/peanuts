@@ -1,5 +1,5 @@
 #include <QtGui>
-#include <Phonon/VideoPlayer>
+//#include <Phonon/VideoPlayer>
 #include "BaseModule.h"
 
 typedef QLabel* QLabelArray;

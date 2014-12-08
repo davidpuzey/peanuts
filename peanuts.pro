@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = peanuts
 DEPENDPATH += . modules
 INCLUDEPATH += . modules
-QT += core gui phonon
+QT += core gui
 
 # Input
 HEADERS += livescreen.h \
