@@ -7,6 +7,7 @@
 #include "modules/ScoresModule.h"
 #include "modules/QuestionsModule.h"
 #include "modules/SongsModule.h"
+#include "modules/BuzzerModule.h"
 
 MainWindow::MainWindow() {
 	setWindowTitle(tr("Peanuts"));
@@ -46,6 +47,7 @@ MainWindow::MainWindow() {
 	addModule(new NumberChoiceModule);
 	addModule(new ThemeCutModule);
 	addModule(new QuestionsModule);
+    addModule(new BuzzerModule);
 	
 	liveSelectButtons->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
 	layout->addLayout(toolBar);
