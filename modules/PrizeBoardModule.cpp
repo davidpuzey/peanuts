@@ -35,7 +35,7 @@ PrizeBoardControl::PrizeBoardControl() {
 		signalMapper->setMapping(button, i);
 		
 		if (i < cellSwitch)
-			layout->addWidget(button, i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the devision (ie use modulus).
+			layout->addWidget(button, i / cols, i % cols); // To work out rows we divide the current item number by the number of items. To work out columns we take the remainder from the division (ie use modulus).
 		else
 			lastRow->addWidget(button);
 	}
