@@ -12,12 +12,14 @@ BuzzerModule::BuzzerModule() {
 	BaseLive *live = getLiveWidget();
 	
 	serial = new QSerialPort();
+	teamLocked = false;
 	
     connect(control, SIGNAL(sendTeamWin(QString)), live, SLOT(teamWin(QString)));
     connect(control, SIGNAL(openSerialPort(QString&)), this, SLOT(openSerialPort(QString&)));
     connect(control, SIGNAL(closeSerialPort()), this, SLOT(closeSerialPort()));
 	connect(this, SIGNAL(teamWin(int)), control, SLOT(teamWin(int)));
 	connect(serial, SIGNAL(readyRead()), this, SLOT(readSerialPort()));
+	connect(live, SIGNAL(unlockTeam()), this, SLOT(unlockTeam()));
 }
 
 void BuzzerModule::openSerialPort(QString &portName) {
@@ -31,10 +33,15 @@ void BuzzerModule::closeSerialPort() {
 
 void BuzzerModule::readSerialPort() {
 	QByteArray input = serial->readLine(5);
-	if (input[1] == '1') {
+	if (input[1] == '1' && !teamLocked) {
 		emit teamWin(((int) input[0])-1);
+		//teamLocked = true;
 		serial->readAll(); // Flush read buffer
 	}
+}
+
+void BuzzerModule::unlockTeam() {
+	teamLocked = false;
 }
 
 BuzzerControl::BuzzerControl() {
@@ -112,9 +119,15 @@ BuzzerLive::BuzzerLive() {
 	buzzDir = new QDir("media/buzzer/");
 	mp3Files = buzzDir->entryList(QDir::Files);
 	
+	textTimeout = new QTimer;
+	textTimeout->setInterval(3000);
+	connect(textTimeout, SIGNAL(timeout()), this, SLOT(killText()));
+	
     QHBoxLayout *layout = new QHBoxLayout();
 	dTeamName = new QLabel();
-	dTeamName->setStyleSheet("color: white; font: 100%;");
+	dTeamName->setWordWrap(true);
+	dTeamName->setAlignment(Qt::AlignCenter);
+	dTeamName->setStyleSheet("margin: 0; padding: 0; background-color: black; color: white; font: 100pt;");
 	layout->addWidget(dTeamName);
     setLayout(layout);
 }
@@ -123,12 +136,15 @@ void BuzzerLive::teamWin(QString teamName) {
 	if (inWin)
 		return;
 	inWin = true;
-    // Flash *teamName
-    // Play random mp3
-	dTeamName->clear();
+	playRandomSound();
 	dTeamName->setText(teamName);
 	dTeamName->update();
-	playRandomSound();
+	textTimeout->start();
+}
+
+void BuzzerLive::killText() {
+	dTeamName->clear();
+	emit unlockTeam();
 	inWin = false;
 }
 

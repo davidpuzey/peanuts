@@ -14,6 +14,7 @@ class BuzzerModule : public BaseModule {
 		
 	private:
 		QSerialPort *serial;
+		bool teamLocked;
 
 	signals:
 		void teamWin(int);
@@ -22,6 +23,9 @@ class BuzzerModule : public BaseModule {
         void openSerialPort(QString&);
         void closeSerialPort();
         void readSerialPort();
+
+	private slots:
+		void unlockTeam();
 };
 
 class BuzzerControl : public BaseControl {
@@ -63,12 +67,15 @@ class BuzzerLive : public BaseLive {
 		QLabel *dTeamName;
 		QDir *buzzDir;
 		QStringList mp3Files;
+		QTimer *textTimeout;
 	
 	signals:
+		void unlockTeam();
 	
 	public slots:
         void teamWin(QString teamName);
 
     private slots:
         void playRandomSound();
+		void killText();
 };
