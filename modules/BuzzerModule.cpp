@@ -1,6 +1,7 @@
 #include <ctime>
 #include <QtWidgets>
 #include <QtSerialPort/QSerialPortInfo>
+#include <QMediaPlayer>
 #include "BuzzerModule.h"
 
 BuzzerModule::BuzzerModule() {
@@ -9,17 +10,31 @@ BuzzerModule::BuzzerModule() {
 	setLiveWidget(new BuzzerLive);
 	BaseControl *control = getControlWidget();
 	BaseLive *live = getLiveWidget();
-    connect(control, SIGNAL(sendTeamWin(QString*)), live, SLOT(teamWin(QString*)));
+	
+	serial = new QSerialPort();
+	
+    connect(control, SIGNAL(sendTeamWin(QString)), live, SLOT(teamWin(QString)));
     connect(control, SIGNAL(openSerialPort(QString&)), this, SLOT(openSerialPort(QString&)));
+    connect(control, SIGNAL(closeSerialPort()), this, SLOT(closeSerialPort()));
+	connect(this, SIGNAL(teamWin(int)), control, SLOT(teamWin(int)));
+	connect(serial, SIGNAL(readyRead()), this, SLOT(readSerialPort()));
 }
 
 void BuzzerModule::openSerialPort(QString &portName) {
+	serial->setPortName(portName);
+	serial->open(QIODevice::ReadWrite);
 }
 
 void BuzzerModule::closeSerialPort() {
+	serial->close();
 }
 
 void BuzzerModule::readSerialPort() {
+	QByteArray input = serial->readLine(5);
+	if (input[1] == '1') {
+		emit teamWin(((int) input[0])-1);
+		serial->readAll(); // Flush read buffer
+	}
 }
 
 BuzzerControl::BuzzerControl() {
@@ -70,8 +85,10 @@ void BuzzerControl::updateSerialPortList() {
 }
 
 void BuzzerControl::teamWin(int team) {
+	if (team >= MAX_TEAMS)
+		return;
 	QString tmpTeamName = teamName[team]->text();
-    emit sendTeamWin(&tmpTeamName);
+    emit sendTeamWin(tmpTeamName);
 }
 
 void BuzzerControl::serialGo(bool state) {
@@ -90,14 +107,33 @@ void BuzzerControl::serialGo(bool state) {
 }
 
 BuzzerLive::BuzzerLive() {
+	player = new QMediaPlayer;
+	inWin = false;
+	buzzDir = new QDir("media/buzzer/");
+	mp3Files = buzzDir->entryList(QDir::Files);
+	
     QHBoxLayout *layout = new QHBoxLayout();
+	dTeamName = new QLabel();
+	dTeamName->setStyleSheet("color: white; font: 100%;");
+	layout->addWidget(dTeamName);
     setLayout(layout);
 }
 
-void BuzzerLive::teamWin(QString *teamName) {
+void BuzzerLive::teamWin(QString teamName) {
+	if (inWin)
+		return;
+	inWin = true;
     // Flash *teamName
     // Play random mp3
+	dTeamName->clear();
+	dTeamName->setText(teamName);
+	dTeamName->update();
+	playRandomSound();
+	inWin = false;
 }
 
 void BuzzerLive::playRandomSound() {
+	int rnum = qrand() % mp3Files.count();
+	player->setMedia(QUrl::fromLocalFile(buzzDir->path() + "/" + mp3Files[rnum]));
+	player->play();
 }

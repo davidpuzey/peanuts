@@ -1,4 +1,6 @@
 #include <QtWidgets>
+#include <QtSerialPort>
+#include <QMediaPlayer>
 #include "BaseModule.h"
 
 #define MAX_TEAMS 2
@@ -9,6 +11,12 @@ class BuzzerModule : public BaseModule {
 	
 	public:
 		BuzzerModule();
+		
+	private:
+		QSerialPort *serial;
+
+	signals:
+		void teamWin(int);
 
     public slots:
         void openSerialPort(QString&);
@@ -29,14 +37,16 @@ class BuzzerControl : public BaseControl {
 		QPushButton *refresh;
 	
 	signals:
-        void sendTeamWin(QString*);
+        void sendTeamWin(QString);
         void openSerialPort(QString&);
         void closeSerialPort();
         void readSerialPort();
 	
+	public slots:
+        void teamWin(int team);
+	
 	private slots:
 		void updateSerialPortList();
-        void teamWin(int team);
         void serialGo(bool);
 };
 
@@ -48,12 +58,16 @@ class BuzzerLive : public BaseLive {
 		BuzzerLive();
 	
 	private:
-        //QMediaPlayer *winSound;
+        QMediaPlayer *player;
+		bool inWin;
+		QLabel *dTeamName;
+		QDir *buzzDir;
+		QStringList mp3Files;
 	
 	signals:
 	
 	public slots:
-        void teamWin(QString *teamName);
+        void teamWin(QString teamName);
 
     private slots:
         void playRandomSound();
