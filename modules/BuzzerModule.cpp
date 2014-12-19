@@ -16,6 +16,12 @@ BuzzerModule::BuzzerModule() {
 void BuzzerModule::openSerialPort(QString &portName) {
 }
 
+void BuzzerModule::closeSerialPort() {
+}
+
+void BuzzerModule::readSerialPort() {
+}
+
 BuzzerControl::BuzzerControl() {
 	QVBoxLayout *layout = new QVBoxLayout();
 	QHBoxLayout *confLayout = new QHBoxLayout();
