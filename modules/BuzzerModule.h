@@ -1,7 +1,7 @@
 #include <QtWidgets>
 #include "BaseModule.h"
 
-#define MAX_TEAMS 8
+#define MAX_TEAMS 2
 typedef QLabel* QLabelArray;
 
 class BuzzerModule : public BaseModule {
@@ -21,19 +21,23 @@ class BuzzerControl : public BaseControl {
 	
 	public:
 		BuzzerControl();
-        QTextBox *teanName[MAX_TEAMS];
+        QLineEdit *teamName[MAX_TEAMS];
 	
 	private:
 		QComboBox *serialPortList;
         QPushButton *start;
+		QPushButton *refresh;
 	
 	signals:
-        void sendTeamWin(QString&);
+        void sendTeamWin(QString*);
+        void openSerialPort(QString&);
+        void closeSerialPort();
+        void readSerialPort();
 	
 	private slots:
 		void updateSerialPortList();
         void teamWin(int team);
-        serialGo(bool);
+        void serialGo(bool);
 };
 
 class BuzzerLive : public BaseLive {
@@ -44,12 +48,12 @@ class BuzzerLive : public BaseLive {
 		BuzzerLive();
 	
 	private:
-        QMediaPlayer *winSound;
+        //QMediaPlayer *winSound;
 	
 	signals:
 	
 	public slots:
-        void teamWin(QString &teamName);
+        void teamWin(QString *teamName);
 
     private slots:
         void playRandomSound();
