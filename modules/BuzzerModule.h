@@ -41,6 +41,8 @@ class BuzzerControl : public BaseControl {
         QPushButton *start;
 		QPushButton *refresh;
         QPushButton *pauseBtn;
+        QFileInfoList videoFiles;
+        QListWidget *videoPlaylist;
 
 	signals:
         void sendTeamWin(QString);
@@ -49,6 +51,7 @@ class BuzzerControl : public BaseControl {
         void readSerialPort();
         void setVideo(QString);
         void setVideoPlaying(bool);
+        void toggleVideoPlaying();
 
 	public slots:
         void teamWin(int team);
@@ -58,6 +61,7 @@ class BuzzerControl : public BaseControl {
 	private slots:
 		void updateSerialPortList();
         void serialGo(bool);
+        void startNewVideo();
 };
 
 class BuzzerLive : public BaseLive {
@@ -86,6 +90,7 @@ class BuzzerLive : public BaseLive {
 	public slots:
         void teamWin(QString teamName);
         void setVideoPlaying(bool);
+        void toggleVideoPlaying();
         void setVideo(QString path);
 
     private slots:

@@ -22,6 +22,7 @@ BuzzerModule::BuzzerModule() {
 	connect(live, SIGNAL(unlockTeam()), this, SLOT(unlockTeam()));
     connect(control, SIGNAL(setVideo(QString)), live, SLOT(setVideo(QString)));
     connect(control, SIGNAL(setVideoPlaying(bool)), live, SLOT(setVideoPlaying(bool)));
+    connect(control, SIGNAL(toggleVideoPlaying()), live, SLOT(toggleVideoPlaying()));
     connect(live, SIGNAL(videoPlaying(bool)), control, SLOT(videoPlaying(bool)));
     connect(live, SIGNAL(videoFinished()), control, SLOT(videoFinished()));
 }
@@ -98,21 +99,26 @@ BuzzerControl::BuzzerControl() {
 
     QDir *videosDir = new QDir("media/buzzer/videos/");
     videosDir->setFilter(QDir::Files);
-    QFileInfoList videoFiles = videosDir->entryInfoList();
+    videoFiles = videosDir->entryInfoList();
 
-    QListWidget *videoPlaylist = new QListWidget();
+    videoPlaylist = new QListWidget();
 	for (int i = 0; i < videoFiles.size(); i++)
 		new QListWidgetItem(videoFiles[i].fileName(), videoPlaylist);
     videoPlaylist->setCurrentRow(0);
 
 	QPushButton *startBtn = new QPushButton("Start");
     connect(videoPlaylist, SIGNAL(itemDoubleClicked(QListWidgetItem *)), startBtn, SLOT(animateClick()));
+    connect(startBtn, SIGNAL(clicked()), this, SLOT(startNewVideo()));
 	pauseBtn = new QPushButton("Pause");
     pauseBtn->setEnabled(false);
+    connect(pauseBtn, SIGNAL(clicked()), this, SIGNAL(toggleVideoPlaying()));
+    QPushButton *nextBtn = new QPushButton("Next");
+    connect(nextBtn, SIGNAL(clicked()), this, SLOT(videoFinished()));
 
     QHBoxLayout *controlsLayout = new QHBoxLayout();
     controlsLayout->addWidget(startBtn);
     controlsLayout->addWidget(pauseBtn);
+    controlsLayout->addWidget(nextBtn);
 
     QWidget *controlsWidget = new QWidget();
     controlsWidget->setLayout(controlsLayout);
@@ -159,10 +165,24 @@ void BuzzerControl::serialGo(bool state) {
 }
 
 void BuzzerControl::videoPlaying(bool playing) {
-    // pauseBtn -> set Text to resume and pause etc
+    pauseBtn->setEnabled(true);
+    if (playing)
+        pauseBtn->setText("Pause");
+    else
+        pauseBtn->setText("Resume");
 }
 
 void BuzzerControl::videoFinished() {
+    pauseBtn->setEnabled(false);
+    //if (videoPlaylist->currentRow() < videoPlaylist->count() - 1)
+    //    videoPlaylist->setCurrentRow(videoPlaylist->currentRow() + 1);
+    videoPlaylist->setCurrentRow(videoPlaylist->currentRow() + 1);
+}
+
+void BuzzerControl::startNewVideo() {
+    int vidItem = videoPlaylist->currentRow();
+    QString path = videoFiles[vidItem].absoluteFilePath();
+    emit setVideo(path);
 }
 
 BuzzerLive::BuzzerLive() {
@@ -248,6 +268,20 @@ void BuzzerLive::videoStatusChanged(QMediaPlayer::MediaStatus status) {
     }
 }
 
+void BuzzerLive::toggleVideoPlaying() {
+    switch (videoPlayer->state()) {
+        case QMediaPlayer::PlayingState:
+            videoPlayer->pause();
+            break;
+        case QMediaPlayer::PausedState:
+            videoPlayer->play();
+            break;
+        default:
+            // Do nothing is the video is stopped
+            break;
+    }
+}
+
 void BuzzerLive::setVideoPlaying(bool state) {
     if (state)
         videoPlayer->play();
@@ -256,6 +290,7 @@ void BuzzerLive::setVideoPlaying(bool state) {
 }
 
 void BuzzerLive::setVideo(QString path) {
+    qDebug() << "path: " << path;
     videoPlayer->stop();
     videoPlayer->setMedia(QUrl::fromLocalFile(path));
     videoPlayer->play();
