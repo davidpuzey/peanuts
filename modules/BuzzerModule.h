@@ -1,6 +1,7 @@
 #include <QtWidgets>
 #include <QtSerialPort>
 #include <QMediaPlayer>
+#include <QVideoWidget>
 #include "BaseModule.h"
 
 #define MAX_TEAMS 2
@@ -62,20 +63,30 @@ class BuzzerLive : public BaseLive {
 		BuzzerLive();
 	
 	private:
-        QMediaPlayer *player;
+        QStackedLayout *layout;
+        QMediaPlayer *soundPlayer;
 		bool inWin;
 		QLabel *dTeamName;
 		QDir *buzzDir;
 		QStringList mp3Files;
 		QTimer *textTimeout;
+        QMediaPlayer *videoPlayer;
+        QVideoWidget *videoWidget;
 	
 	signals:
 		void unlockTeam();
+        void videoPlaying(bool);
+        void videoFinished();
 	
 	public slots:
         void teamWin(QString teamName);
+        void setVideoPlaying(bool);
+        void setVideo(QString path);
 
     private slots:
         void playRandomSound();
 		void killText();
+        void videoStateChanged(QMediaPlayer::State);
+        void videoStatusChanged(QMediaPlayer::MediaStatus);
+        void checkVideoHidden(int);
 };
