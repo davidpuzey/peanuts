@@ -110,7 +110,6 @@ BuzzerControl::BuzzerControl() {
     connect(videoPlaylist, SIGNAL(itemDoubleClicked(QListWidgetItem *)), startBtn, SLOT(animateClick()));
     connect(startBtn, SIGNAL(clicked()), this, SLOT(startNewVideo()));
 	pauseBtn = new QPushButton("Pause");
-    pauseBtn->setEnabled(false);
     connect(pauseBtn, SIGNAL(clicked()), this, SIGNAL(toggleVideoPlaying()));
     QPushButton *nextBtn = new QPushButton("Next");
     connect(nextBtn, SIGNAL(clicked()), this, SLOT(videoFinished()));
@@ -165,7 +164,6 @@ void BuzzerControl::serialGo(bool state) {
 }
 
 void BuzzerControl::videoPlaying(bool playing) {
-    pauseBtn->setEnabled(true);
     if (playing)
         pauseBtn->setText("Pause");
     else
@@ -173,7 +171,6 @@ void BuzzerControl::videoPlaying(bool playing) {
 }
 
 void BuzzerControl::videoFinished() {
-    pauseBtn->setEnabled(false);
     //if (videoPlaylist->currentRow() < videoPlaylist->count() - 1)
     //    videoPlaylist->setCurrentRow(videoPlaylist->currentRow() + 1);
     videoPlaylist->setCurrentRow(videoPlaylist->currentRow() + 1);
@@ -204,6 +201,7 @@ BuzzerLive::BuzzerLive() {
     videoWidget = new QVideoWidget();
     videoPlayer->setVideoOutput(videoWidget);
     connect(videoPlayer, SIGNAL(stateChanged(QMediaPlayer::State)), this , SLOT(videoStateChanged(QMediaPlayer::State)));
+    connect(videoPlayer, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)), this , SLOT(videoStatusChanged(QMediaPlayer::MediaStatus)));
 
     layout = new QStackedLayout();
 	layout->addWidget(dTeamName);
@@ -233,7 +231,7 @@ void BuzzerLive::killText() {
 
 void BuzzerLive::playRandomSound() {
 	int rnum = qrand() % mp3Files.count();
-	soundPlayer->setMedia(QUrl::fromLocalFile(buzzDir->path() + "/" + mp3Files[rnum]));
+	soundPlayer->setMedia(QUrl::fromLocalFile(buzzDir->absolutePath() + "/" + mp3Files[rnum]));
 	soundPlayer->play();
 }
 
@@ -290,7 +288,6 @@ void BuzzerLive::setVideoPlaying(bool state) {
 }
 
 void BuzzerLive::setVideo(QString path) {
-    qDebug() << "path: " << path;
     videoPlayer->stop();
     videoPlayer->setMedia(QUrl::fromLocalFile(path));
     videoPlayer->play();
