@@ -9,10 +9,10 @@ typedef QLabel* QLabelArray;
 
 class BuzzerModule : public BaseModule {
 	Q_OBJECT
-	
+
 	public:
 		BuzzerModule();
-		
+
 	private:
 		QSerialPort *serial;
 		bool teamLocked;
@@ -31,25 +31,30 @@ class BuzzerModule : public BaseModule {
 
 class BuzzerControl : public BaseControl {
 	Q_OBJECT
-	
+
 	public:
 		BuzzerControl();
         QLineEdit *teamName[MAX_TEAMS];
-	
+
 	private:
 		QComboBox *serialPortList;
         QPushButton *start;
 		QPushButton *refresh;
-	
+        QPushButton *pauseBtn;
+
 	signals:
         void sendTeamWin(QString);
         void openSerialPort(QString&);
         void closeSerialPort();
         void readSerialPort();
-	
+        void setVideo(QString);
+        void setVideoPlaying(bool);
+
 	public slots:
         void teamWin(int team);
-	
+        void videoPlaying(bool);
+        void videoFinished();
+
 	private slots:
 		void updateSerialPortList();
         void serialGo(bool);
@@ -57,11 +62,11 @@ class BuzzerControl : public BaseControl {
 
 class BuzzerLive : public BaseLive {
 	Q_OBJECT
-	
-	
+
+
 	public:
 		BuzzerLive();
-	
+
 	private:
         QStackedLayout *layout;
         QMediaPlayer *soundPlayer;
@@ -72,12 +77,12 @@ class BuzzerLive : public BaseLive {
 		QTimer *textTimeout;
         QMediaPlayer *videoPlayer;
         QVideoWidget *videoWidget;
-	
+
 	signals:
 		void unlockTeam();
         void videoPlaying(bool);
         void videoFinished();
-	
+
 	public slots:
         void teamWin(QString teamName);
         void setVideoPlaying(bool);

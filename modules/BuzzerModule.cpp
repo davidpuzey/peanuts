@@ -20,6 +20,10 @@ BuzzerModule::BuzzerModule() {
 	connect(this, SIGNAL(teamWin(int)), control, SLOT(teamWin(int)));
 	connect(serial, SIGNAL(readyRead()), this, SLOT(readSerialPort()));
 	connect(live, SIGNAL(unlockTeam()), this, SLOT(unlockTeam()));
+    connect(control, SIGNAL(setVideo(QString)), live, SLOT(setVideo(QString)));
+    connect(control, SIGNAL(setVideoPlaying(bool)), live, SLOT(setVideoPlaying(bool)));
+    connect(live, SIGNAL(videoPlaying(bool)), control, SLOT(videoPlaying(bool)));
+    connect(live, SIGNAL(videoFinished()), control, SLOT(videoFinished()));
 }
 
 void BuzzerModule::openSerialPort(QString &portName) {
@@ -103,7 +107,7 @@ BuzzerControl::BuzzerControl() {
 
 	QPushButton *startBtn = new QPushButton("Start");
     connect(videoPlaylist, SIGNAL(itemDoubleClicked(QListWidgetItem *)), startBtn, SLOT(animateClick()));
-	QPushButton *pauseBtn = new QPushButton("Pause");
+	pauseBtn = new QPushButton("Pause");
     pauseBtn->setEnabled(false);
 
     QHBoxLayout *controlsLayout = new QHBoxLayout();
@@ -152,6 +156,13 @@ void BuzzerControl::serialGo(bool state) {
 		serialPortList->setEnabled(true);
 		refresh->setEnabled(true);
     }
+}
+
+void BuzzerControl::videoPlaying(bool playing) {
+    // pauseBtn -> set Text to resume and pause etc
+}
+
+void BuzzerControl::videoFinished() {
 }
 
 BuzzerLive::BuzzerLive() {
